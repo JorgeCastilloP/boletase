@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>eDocs | Boleta-(e)</title>
+
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="assets/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <!-- Toastr style -->
+    <link href="assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="assets/css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="assets/css/animate.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <script src="assets/js/jquery-3.1.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .btn-space {
+            margin-right: 5px;
+        }
+
+        .dt-body-center{
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="assets/img/profile_small.jpg" style="width: 60px"/>
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Edan Randall</strong>
+                             </span> <span class="text-muted text-xs block">Sistemas <b class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="#">Mi perfil</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        eDocs
+                    </div>
+                </li>
+                <li>
+                    <a href="?c=Colaboradores">
+                        <i class="fa fa-users"></i> 
+                        <span class="nav-label">Colaboradores</span>
+                        <span class="label label-warning pull-right">NUEVO</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Documentos</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="?c=Documentos&a=Boletas">Boleta-(e)</a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="nav-label">CTS</span>
+                                <span class="pull-right label label-primary">PRONTO</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="nav-label">Otros</span>
+                                <span class="pull-right label label-primary">PRONTO</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Mantenimiento</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="#">Documentos<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="?c=Mantenimiento&a=Boletas">Boleta-(e)</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="nav-label">CTS</span>
+                                        <span class="pull-right label label-primary">PRONTO</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="nav-label">Otros</span>
+                                        <span class="pull-right label label-primary">PRONTO</span>
+                                    </a>
+                                </li>
+                            </ul>                          
+                        </li>
+                        <li>
+                            <a href="?c=Root&a=Perfiles">
+                                <span class="nav-label">Perfiles</span>
+                                <span class="pull-right label label-primary">PRONTO</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?c=Root&a=Areas">
+                                <span class="nav-label">Grupos</span>
+                                <span class="pull-right label label-primary">PRONTO</span>
+                            </a>                            
+                        </li>
+                        <li><a href="?c=Mantenimiento&a=Usuarios">Usuarios</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">Bienvenido a Boletas-(e) portal de boletas de <strong>eDocs</strong></span>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user"></i>  <span class="label label-primary">!</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-child fa-fw"></i> Mi perfil
+                                    <span class="pull-right text-muted small">Ir</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="?c=Login&a=Index">
+                        <i class="fa fa-sign-out"></i> Cerrar sesión
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        </div>

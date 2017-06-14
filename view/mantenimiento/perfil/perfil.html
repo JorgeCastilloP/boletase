@@ -1,0 +1,609 @@
+
+<link href="assets/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Boleta-(e)</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a href="#">Mantenimiento</a>
+            </li>
+            <li class="active">
+                <strong>Perfiles</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalPerfil">
+                Nuevo
+            </button>
+            <div class="ibox-title">
+                <h5>Listado de perfiles creados</h5>
+                
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">Config option 1</a>
+                        </li>
+                        <li><a href="#">Config option 2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+
+                <div class="table-responsive">
+                    <table id="tblPerfil" class="table table-striped table-bordered table-hover dataTables-example" >
+                        <thead>
+                            <tr>
+                                <th>IdPerfil</th>
+                                <th>IdAuditoria</th>
+                                <th>Ruc</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                    </table>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal inmodal" id="modalPerfil" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+        
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Nuevo Perfil</h4>
+                <!--
+                <i class="fa fa-laptop modal-icon"></i>
+                <h4 class="modal-title">Modal title</h4>
+                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                -->
+            </div>
+            <div class="modal-body">
+            <!--
+                <p>
+                    <strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                    printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                    remaining essentially unchanged.
+                </p>
+                
+                <div class="form-group">
+                    <label>Sample Input</label>
+                    <input type="email" placeholder="Enter your email" class="form-control">
+                </div>
+                -->
+                <form id="frm-nuevoperfil" class="wizard-big">
+                <h1>Perfil</h1>
+                <fieldset>
+                    <div class="form-group">
+                        <input id="hdnIdPerfil" name="hdnIdPerfil" type="hidden">
+                        <input id="hdnIdAuditoria" name="hdnIdAuditoria" type="hidden">
+                        <input id="hdnRuc" name="hdnRuc" type="hidden">
+                    </div>                
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input id="txtNombre" name="txtNombre" type="text" class="form-control required" aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <input id="txtDescripcion" name="txtDescripcion" type="text" class="form-control">                    
+                    </div>
+                </fieldset>
+                <h1>Accesos</h1>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="dd" id="nestable2">
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-collapsed" data-id="1">
+                                        <div class="dd-handle">
+                                            <span class="label label-info"><i class="fa fa-users"></i></span> Cras ornare tristique.
+                                        </div>
+                                        <ol class="dd-list">
+                                            <div class="checkbox">
+                                                <label class="checkbox" for="closeButton">
+                                                    <input id="closeButton" type="checkbox" value="checked" class="input-mini" checked/>Close Button
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label class="checkbox" for="addBehaviorOnToastClick">
+                                                    <input id="addBehaviorOnToastClick" type="checkbox" value="checked" class="input-mini" />Add behavior on toast click
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label class="checkbox" for="debugInfo">
+                                                    <input id="debugInfo" type="checkbox" value="checked" class="input-mini" />Debug
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label class="checkbox" for="progressBar">
+                                                    <input id="progressBar" type="checkbox" value="checked" class="input-mini" checked/>Progress Bar
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label class="checkbox" for="preventDuplicates">
+                                                    <input id="preventDuplicates" type="checkbox" value="checked" class="input-mini" />Prevent Duplicates
+                                                </label>
+                                            </div>
+                                        </ol>
+                                    </li>
+
+                                    <li class="dd-item dd-collapsed" data-id="5">
+                                        <div class="dd-handle">
+                                            <span class="label label-warning"><i class="fa fa-users"></i></span> Integer vitae libero.
+                                        </div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="6">
+                                                <div class="dd-handle">
+                                                    <span class="pull-right"> 15:00 pm </span>
+                                                    <span class="label label-warning"><i class="fa fa-users"></i></span> Nam convallis pellentesque nisl.
+                                                </div>
+                                            </li>
+                                            <li class="dd-item" data-id="7">
+                                                <div class="dd-handle">
+                                                    <span class="pull-right"> 16:00 pm </span>
+                                                    <span class="label label-warning"><i class="fa fa-bomb"></i></span> Vivamus molestie gravida turpis
+                                                </div>
+                                            </li>
+                                            <li class="dd-item" data-id="8">
+                                                <div class="dd-handle">
+                                                    <span class="pull-right"> 21:00 pm </span>
+                                                    <span class="label label-warning"><i class="fa fa-child"></i></span> Ut aliquam sollicitudin leo.
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <h1>Areas</h1>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-lg-12">
+                                <div class="checkbox">
+                                    <label class="checkbox" for="closeButton">
+                                        <input id="closeButton" type="checkbox" value="checked" class="input-mini" checked/>Close Button
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="addBehaviorOnToastClick">
+                                        <input id="addBehaviorOnToastClick" type="checkbox" value="checked" class="input-mini" />Add behavior on toast click
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="debugInfo">
+                                        <input id="debugInfo" type="checkbox" value="checked" class="input-mini" />Debug
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="progressBar">
+                                        <input id="progressBar" type="checkbox" value="checked" class="input-mini" checked/>Progress Bar
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="preventDuplicates">
+                                        <input id="preventDuplicates" type="checkbox" value="checked" class="input-mini" />Prevent Duplicates
+                                    </label>
+                                </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <h1>Tipos de documento</h1>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-lg-12">
+                                <div class="checkbox">
+                                    <label class="checkbox" for="closeButton">
+                                        <input id="closeButton" type="checkbox" value="checked" class="input-mini" checked/>Close Button
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="addBehaviorOnToastClick">
+                                        <input id="addBehaviorOnToastClick" type="checkbox" value="checked" class="input-mini" />Add behavior on toast click
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="debugInfo">
+                                        <input id="debugInfo" type="checkbox" value="checked" class="input-mini" />Debug
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="progressBar">
+                                        <input id="progressBar" type="checkbox" value="checked" class="input-mini" checked/>Progress Bar
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="checkbox" for="preventDuplicates">
+                                        <input id="preventDuplicates" type="checkbox" value="checked" class="input-mini" />Prevent Duplicates
+                                    </label>
+                                </div>
+                        </div>
+                    </div>
+                </fieldset>
+                </form>
+            </div>
+            <!--
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/plugins/steps/jquery.steps.min.js"></script>
+<script src="assets/js/plugins/validate/jquery.validate.min.js"></script>
+
+
+<script src="assets/js/plugins/nestable/jquery.nestable.js"></script>
+
+<script>
+    $(document).ready(function() {
+
+
+        $.getJSON("?c=Submenu&a=listar", function (data) {
+            console.log(data);
+            /*
+            var items;
+            $.each(data.data, function (i, item) {
+                items += "<option value=" + item.prf_id + "  selected='selected' >" + item.prf_nombre + "</option>";
+            });
+            $("#perfil").html(items); 
+            */
+        });
+
+        var sample = new Array();
+        sample.push({item:"1", name:"Web1"});
+        sample.push({item:"2", name:"Web2"});
+
+        addNode(1, 'fa-users', 'Nuevo', sample);
+
+        var tblPerfil = $('#tblPerfil').DataTable();
+
+        tblPerfil = cargarTabla();
+        /*
+        $("#frm-nuevoperfil").validate({
+                rules: {
+                    txtNombre: {
+                        required: false
+                    },
+                    txtDescripcion: {
+                        required: false
+                    }                    
+                },
+                messages: {
+                    txtNombre: {
+                        required: "asdas"
+                    },
+                    txtDescripcion: {
+                        required: "asdas"
+                    }                    
+                },
+                submitHandler: function(form) {
+                    $.post("?c=Perfil&a=guardar",
+                    {
+                        idperfil: $("#hdnIdPerfil").val(),
+                        idauditoria: $("#hdnIdAuditoria").val(),
+                        ruc: $("#hdnRuc").val(),
+                        nombre: $("#txtNombre").val(),
+                        descripcion: $("#txtDescripcion").val()
+                    }, function(data, status){
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        $('#modalPerfil').modal('toggle');
+
+                        
+                        var response = jQuery.parseJSON(data);
+
+                        if(response.error == FLAG_CORRECTO){
+                            //alert("correcto");
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0057,
+                                size: 'small',
+                                className: 'animated bounceInRight',
+                                callback: function(){  }
+                            });
+                        }else{
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0058 + ': ' + response.error,
+                                size: 'small',                                
+                                className: 'animated wobble',
+                                callback: function(){ }
+                            });  
+                        }
+
+                        tblPerfil = cargarTabla();
+                    });
+                }
+        });
+        */
+
+
+        $('#modalPerfil').on('show.bs.modal', function (e) {
+            $('#nestable2').nestable('collapseAll').nestable('collapseAll');
+        });
+
+        $("#frm-nuevoperfil").steps({
+                bodyTag: "fieldset",
+                onStepChanging: function (event, currentIndex, newIndex)
+                {
+                    console.log(currentIndex);
+                    console.log(newIndex);
+                    // Always allow going backward even if the current step contains invalid fields!
+                    if (currentIndex > newIndex)
+                    {
+                        return true;
+                    }
+
+                    // Forbid suppressing "Warning" step if the user is to young
+                    if (newIndex === 3 && Number($("#age").val()) < 18)
+                    {
+                        return false;
+                    }
+
+                    var form = $(this);
+                    /*
+                    // Clean up if user went backward before
+                    if (currentIndex < newIndex)
+                    {
+                        // To remove error styles
+                        $(".body:eq(" + newIndex + ") label.error", form).remove();
+                        $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                    }
+                    */
+                    // Disable validation on fields that are disabled or hidden.
+                    form.validate().settings.ignore = ":disabled,:hidden";
+
+                    // Start validation; Prevent going forward if false
+                    return form.valid();
+                    
+                },
+                onStepChanged: function (event, currentIndex, priorIndex)
+                {
+                    console.log("on step changed");
+                    /*
+                    // Suppress (skip) "Warning" step if the user is old enough.
+                    if (currentIndex === 2 && Number($("#age").val()) >= 18)
+                    {
+                        $(this).steps("next");
+                    }
+
+                    // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                    if (currentIndex === 2 && priorIndex === 3)
+                    {
+                        $(this).steps("previous");
+                    }
+                    */
+                },
+                onFinishing: function (event, currentIndex)
+                {
+                    /*
+                    var form = $(this);
+
+                    // Disable validation on fields that are disabled.
+                    // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                    form.validate().settings.ignore = ":disabled";
+
+                    // Start validation; Prevent form submission if false
+                    return form.valid();
+                    */
+                },
+                onFinished: function (event, currentIndex)
+                {
+                    /*
+                    var form = $(this);
+
+                    // Submit form input
+                    form.submit();
+                    */
+                }                         
+        }).validate({
+                        errorPlacement: function (error, element)
+                        {
+                            element.before(error);
+                        },
+                        rules: {
+                            confirm: {
+                                equalTo: "#password"
+                            }
+                        }
+                    });
+        $('#tblPerfil tbody').on('click', 'td.link-control > .editar', function () {
+
+            $('#modalPerfil').modal('show');
+            var tr = $(this).closest('tr');
+            var row = tblPerfil.row(tr);
+
+            $("#hdnIdPerfil").val(row.data().Id);
+            $("#hdnIdAuditoria").val(row.data().Auditoria.Id);
+            $("#hdnRuc").val(row.data().Empresa.Ruc);
+            $("#txtNombre").val(row.data().Nombre);
+            $("#txtDescripcion").val(row.data().Descripcion);
+
+        });
+
+        $('#modalPerfil').on('hidden.bs.modal', function () {
+            limpiar();
+        })
+
+    } );
+    function cargarTabla(){
+
+        var table = $('#tblPerfil').DataTable({
+            "bFilter": true,
+            "bDestroy": true,
+            "bProcessing": true,
+            "bServerSide": true,
+            "ajax": {
+                "type": "POST", 
+                //"contentType": "application/json; charset=utf-8",        
+                "url": '?c=Perfil&a=listar',
+                /*
+                "data": function ( d ){
+                    d.RowsDeleted = rows_deleted;
+                    d.fecha_seleccion = '';
+                },
+                */
+                "error": function(xhr,status,error) {
+                    console.log(xhr.responseText);
+                    console.log(xhr);
+                }
+            },
+            'columnDefs': [
+                {
+                    "targets": [ 0, 1, 2],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": [6],
+                    "searchable": false, 
+                    "orderable": false,
+                    "className": 'link-control',
+                    "render": function(data, type, full, meta){
+
+                    return '' +
+                    '<button class="btn btn-success btn-xs btn-space editar">'+
+                        '<i class="fa fa-wrench"></i> Editar'+
+                    '</button>' + 
+                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Auditoria.Id + ')">'+
+                        '<i class="fa fa-close"></i> Eliminar'+
+                    '</button>';                      
+                    }
+                }
+            ],
+            "columns": [
+                        { "data": 'Id'},
+                        { "data": 'Auditoria.Id'},
+                        { "data": 'Empresa.Ruc'},
+                        { "data": 'Nombre'},
+                        { "data": 'Descripcion'},
+                        { "data": 'Estado'},
+                        { "data": null},
+            ],
+        });    
+
+        return table;        
+    }
+    function limpiar(){
+        $("#hdnIdPerfil").val('');
+        $("#hdnIdAuditoria").val('');
+        $("#hdnRuc").val('');
+        $("#txtNombre").val('');
+        $("#txtDescripcion").val('');        
+    }
+    function eliminar(IdPerfil, IdAuditoria){
+        addNode();
+
+        bootbox.confirm({
+            title: m_001,
+            message: m_0067,
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    $.post("?c=Perfil&a=eliminar",
+                    {
+                        idperfil: IdPerfil,
+                        idauditoria: IdAuditoria
+
+                    }, function(data, status){
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        var response = jQuery.parseJSON(data);
+
+                        if(response.error == FLAG_CORRECTO){
+                            //alert("correcto");
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0064,
+                                size: 'small',
+                                className: 'animated bounceInRight',
+                                callback: function(){ }
+                            });
+                        }else{
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0058 + ': ' + response.error,
+                                size: 'small',                                
+                                className: 'animated wobble',
+                                callback: function(){  }
+                            });  
+                        }
+
+                        tblPerfil = cargarTabla();
+                    });
+                }else{
+                    bootbox.alert({
+                        title: m_001,
+                        message: m_0068,
+                        size: 'small',
+                        className: 'animated bounceInRight',
+                        callback: function(){  }
+                    });
+                }
+            }
+        }); 
+
+    }
+    function addNode(Id, Icon, MenuName, Items){
+        var append = "";
+        
+        append += 
+            "<li class='dd-item dd-collapsed' data-id='" + Id + "'>" + 
+                "<div class='dd-handle'>" + 
+                    "<span class='label label-info'><i class='fa " + Icon +"'></i></span> "+ MenuName +
+                "</div>";
+        append += 
+                "<ol class='dd-list'>";
+
+        for (var item in Items) {
+            append +=                 
+                    "<div class='checkbox'>" +
+                        "<label class='checkbox' for='closeButton'>"+
+                            "<input id='closeButton' type='checkbox' value='"+ item.id +"' class='input-mini' checked/>"+ item.name +
+                        "</label>" +
+                    "</div>"        
+        }                
+
+        append += 
+                "</ol>";                
+        append += 
+            "</li>";
+
+        $("#nestable2 > ol").append(append);
+    }
+</script>

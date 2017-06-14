@@ -1,0 +1,91 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Usuarios</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a>Mantenimiento</a>
+            </li>
+            <li class="active">
+                <strong>Usuarios</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Listado de usuarios</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+                    <thead>
+                    <tr>
+                        <th>Departamento</th>
+                        <th>Apellidos</th>
+                        <th>Nombres</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Contabilidad</td>
+                            <td>Silva Saman</td>
+                            <td>Joel Alejandro</td>
+                            <td>jsaman@gmail.com</td>
+                            <td>985 854 587</td>
+                            <td>Editar - Eliminar</td>
+                        </tr>
+                        <tr>
+                            <td>Contabilidad</td>
+                            <td>Lindsay Morgan</td>
+                            <td>Rooney</td>
+                            <td>rlindsay@gmail.com</td>
+                            <td>985 854 589</td>
+                            <td>Editar - Eliminar</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Departamento</th>
+                        <th>Apellidos</th>
+                        <th>Nombres</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
+                    </table>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.dataTables-example').DataTable({
+            pageLength: 25,
+            responsive: true
+        });
+
+    });
+
+</script>

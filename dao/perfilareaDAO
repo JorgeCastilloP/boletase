@@ -1,0 +1,59 @@
+<?php
+
+require_once 'model/perfil_area.php';
+
+class PerfilAreaDAO
+{
+	private $pdo;
+
+	public function __CONSTRUCT()
+	{
+		try
+		{
+			$this->pdo = Database::Conectar();     
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+	}
+	public function guardar($perfil_area){
+	
+		$error_desc = '';				
+
+		try {
+
+			$sQuery = "
+			        select 
+			        	rv_msj_error 
+			        from 
+			        	perfil_area_guardar(?,?,?,?);
+			    ";
+			$stm = $this->pdo->prepare($sQuery);
+
+			$stm->execute(
+				array(
+					$perfil_area->getPerfil()->getId(),
+					$perfil_area->getArea()->getId(), 
+					$perfil_area->getEstado(), 
+					$perfil_area->getAuditoria()->getId()
+					)
+				);
+
+			$row = $stm->fetch();			
+
+			if($row){
+				$error_desc = $row['rv_msj_error'];
+			}
+
+		} catch (Exception $e) {
+			$error_desc = $e->getMessage();				
+		}
+
+		return array(
+					"perfil_area" => $perfil_area,
+	    			"error_desc" => $error_desc
+	    			);	
+
+	}	
+}

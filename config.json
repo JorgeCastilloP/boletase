@@ -1,0 +1,38 @@
+{
+  "name": "boletase",
+  "version": "1.0.0",
+  "homepage": "http://www.perusecure.net/",
+  "authors": [
+    "Jorge Castillo"
+  ],
+  "contact": [
+    "jorge.castillo.pe@gmail.com"
+  ],  
+  "description": "Pagina web que complementa el SFE desarrollado por PSeN, permite visualizar comprobantes y verificar los procesos que corresponde",
+  "license": "PSeN",
+  "main": [
+    "index.php"
+  ],
+  "config": {
+    "ubicacion_banners": "/CERPER/view/uploads/",
+    "ubicacion_txt_creados": "/CERPER/view/TXT/",
+    "url_app": "http://190.40.221.213/CERPER/",
+
+    "ws_download_pdf": "http://190.40.221.212/Ebilling.ServicioPSeNPDF/ServicePSeNPDF.asmx?wsdl",
+    "ws_download_xml": "http://190.40.221.212/Ebilling.ServicioWeb/Cliente.asmx?wsdl",
+
+    "mail_host": "192.168.1.2",
+    "mail_port": "25",
+    "mail_usuario": "asuarez",
+    "mail_password": "devm8$mpf",
+    "mail_from": "ebilling@e-billing.com.ec",
+    "mail_from_alias": "e-billingpe",
+    
+    "database_host": "localhost",
+    "database_port": "5432",
+    "database_name": "BOLETAE",
+    "database_user": "sigecodeveloper",
+    "database_pass": "psendeveloper",
+    "max_desc_masivas" : "5"
+  }
+}
