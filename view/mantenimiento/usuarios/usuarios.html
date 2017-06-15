@@ -21,6 +21,9 @@
     <div class="row">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalArea">
+                Nuevo
+            </button>
             <div class="ibox-title">
                 <h5>Listado de usuarios</h5>
                 <div class="ibox-tools">
@@ -32,45 +35,19 @@
             <div class="ibox-content">
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover dataTables-example" >
-                    <thead>
-                    <tr>
-                        <th>Departamento</th>
-                        <th>Apellidos</th>
-                        <th>Nombres</th>
-                        <th>Correo</th>
-                        <th>Telefono</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Contabilidad</td>
-                            <td>Silva Saman</td>
-                            <td>Joel Alejandro</td>
-                            <td>jsaman@gmail.com</td>
-                            <td>985 854 587</td>
-                            <td>Editar - Eliminar</td>
-                        </tr>
-                        <tr>
-                            <td>Contabilidad</td>
-                            <td>Lindsay Morgan</td>
-                            <td>Rooney</td>
-                            <td>rlindsay@gmail.com</td>
-                            <td>985 854 589</td>
-                            <td>Editar - Eliminar</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>Departamento</th>
-                        <th>Apellidos</th>
-                        <th>Nombres</th>
-                        <th>Correo</th>
-                        <th>Telefono</th>
-                        <th></th>
-                    </tr>
-                    </tfoot>
+                    <table  id="tblUsuario" class="table table-striped table-bordered table-hover dataTables-example" >
+                        <thead>
+                            <tr>
+
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Usuario</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Usarios</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
                     </table>   
                 </div>
             </div>
@@ -79,13 +56,322 @@
 </div>
 </div>
 
+<!--Modal -->
+<div class="modal inmodal" id="modalArea" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Desde Aca es la ventana Modal-->
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+        <form id="frm-nuevoarea">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Nuevo Usuario</h4>
+                <!--
+                <i class="fa fa-laptop modal-icon"></i>
+                <h4 class="modal-title">Modal title</h4>
+                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                -->
+            </div>
+            <div class="modal-body">
+            <!--
+                <p>
+                    <strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                    printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                    remaining essentially unchanged.
+                </p>
+                
+                <div class="form-group">
+                    <label>Sample Input</label>
+                    <input type="email" placeholder="Enter your email" class="form-control">
+                </div>
+                -->
+                <div class="form-group">
+                    <input id="hdnIdArea" name="hdnIdArea" type="hidden">
+                    <input id="hdnIdAuditoria" name="hdnIdAuditoria" type="hidden">
+                    <input id="hdnRuc" name="hdnRuc" type="hidden">
+                </div>                
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input id="txtNombre" name="txtNombre" type="text" class="form-control required" aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label>Apellido</label>
+                    <input id="txtApellido" name="txtApellido" type="text" class="form-control required" aria-required="true">                    
+                </div>
+                 <div class="form-group">
+                    <label>Tipo Documento Identidad</label>
+                    <select class="form-control required">
+                       <option>--- Seleccionar----</option> 
+                       <option>Cédula diplomatica de Identidad</option> 
+                       <option>Pasaporte</option>
+                       <option>Registro Único de Contribuyentes</option>
+                       <option>Canet de Extranjeria</option>  
+                    </select>
+                                        
+                </div>
+                <div class="form-group">
+                    <label>Número de documento de identidad</label>
+                    <input id="txtNumeroDocumentoIdentiddad" name="txtNumeroDocumentoIdentiddad" type="text" class="form-control required" aria-required="true">                    
+                </div>
+
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input id="txtCorreo" name="txtCorreo" type="password" class="form-control required" aria-required="true">                    
+                </div>
+                <div class="form-group">
+                    <label>Telefono/Celular</label>
+                    <input id="txtTelefono" name="txtTelefono" type="password" class="form-control required" aria-required="true">                    
+                </div>
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input id="txtUsuario" name="txtUsuario" type="text" class="form-control required" aria-required="true">                    
+                </div>
+                <div class="form-group">
+                    <label>Area</label>
+                    <select class="form-control required">
+                       <option>--- Seleccionar----</option> 
+                       <option>Ventas</option> 
+                       <option>Administracion</option>
+                    </select>                   
+                </div>
+                <div class="form-group">
+                    <label>Perfil</label>
+                      <select class="form-control required">
+                       <option>--- Seleccionar----</option> 
+                       <option>Administrador</option> 
+                       <option>Empleado</option>
+                    </select>                      
+                </div>
+                 
+             
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<!--comentario-->
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/plugins/validate/jquery.validate.min.js"></script>
+
 <script>
-    $(document).ready(function(){
-        $('.dataTables-example').DataTable({
-            pageLength: 25,
-            responsive: true
+    $(document).ready(function() {
+
+        var tblUsuario = $('#tblUsuario').DataTable();
+
+        tblUsuario = cargarTabla();
+
+        $("#frm-nuevoarea").validate({
+                rules: {
+                    txtNombre: {
+                        required: true
+                    },
+                    txtDescripcion: {
+                        required: false
+                    }                    
+                },
+                messages: {
+                    txtNombre: {
+                        required: "asdas"
+                    },
+                    txtDescripcion: {
+                        required: "asdas"
+                    }                    
+                },
+                submitHandler: function(form) {
+                    $.post("?c=Area&a=guardar",
+                    {
+                        idarea: $("#hdnIdArea").val(),
+                        idauditoria: $("#hdnIdAuditoria").val(),
+                        ruc: $("#hdnRuc").val(),
+                        nombre: $("#txtNombre").val(),
+                        descripcion: $("#txtDescripcion").val()
+                    }, function(data, status){
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        $('#modalArea').modal('toggle');
+
+                        
+                        var response = jQuery.parseJSON(data);
+
+                        if(response.error == FLAG_CORRECTO){
+                            //alert("correcto");
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0057,
+                                size: 'small',
+                                className: 'animated bounceInRight',
+                                callback: function(){  }
+                            });
+                        }else{
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0058 + ': ' + response.error,
+                                size: 'small',                                
+                                className: 'animated wobble',
+                                callback: function(){  }
+                            });  
+                        }
+
+                        tblUsuario = cargarTabla();
+                    });
+                }
         });
 
-    });
 
+        
+
+        $('#tblUsuario tbody').on('click', 'td.link-control > .editar', function () {
+
+            $('#modalArea').modal('show');
+            var tr = $(this).closest('tr');
+            var row = tblUsuario.row(tr);
+
+            /*$("#hdnIdArea").val(row.data().Id);
+            $("#hdnIdAuditoria").val(row.data().Auditoria.Id);
+            $("#hdnRuc").val(row.data().Empresa.Ruc);*/
+            $("#txtNombre").val(row.data().Nombres);
+            $("#txtApellido").val(row.data().Apellidos);
+            $("#txtUsuario").val(row.data().Usuario);
+            $("#txtNumeroDocumentoIdentiddad").val(row.data().NumeroDocumento);
+
+        });
+
+        $('#modalArea').on('hidden.bs.modal', function () {
+            limpiar();
+        })
+
+    } );
+
+    function cargarTabla(){
+
+        var table = $('#tblUsuario').DataTable({
+            "bFilter": true,
+            "bDestroy": true,
+            "bProcessing": true,
+            "bServerSide": true,
+            "ajax": {
+                "type": "POST", 
+                //"contentType": "application/json; charset=utf-8",        
+                "url": '?c=Empleado&a=listar',
+                /*
+                "data": function ( d ){
+                    d.RowsDeleted = rows_deleted;
+                    d.fecha_seleccion = '';
+                },
+                */
+                "error": function(xhr,status,error) {
+                    console.log(xhr.responseText);
+                    console.log(xhr);
+                }
+            },
+            'columnDefs': [
+                {
+                    "targets": [ 0, 1, 2],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": [6],
+                    "searchable": false, 
+                    "orderable": false,
+                    "className": 'link-control',
+                    "render": function(data, type, full, meta){
+
+                    return '' +
+                    '<button class="btn btn-success btn-xs btn-space editar">'+
+                        '<i class="fa fa-wrench"></i> Editar'+
+                    '</button>' + 
+                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Id + ')">'+
+                        '<i class="fa fa-close"></i> Eliminar'+
+                    '</button>';                      
+                    }
+                }
+            ],
+     
+            "columns": [
+                        { "data": 'Id'},
+                        { "data": 'NumeroDocumento'},
+                        { "data": 'TipoDocumentoIdentidad'},
+                        { "data": 'Nombres'},
+                        { "data": 'Apellidos'},
+                        { "data": 'Usuario'},
+                        { "data": null},
+            ]
+            
+        });    
+
+        return table;        
+    }
+    function limpiar(){
+        /*$("#hdnIdArea").val('');
+        $("#hdnIdAuditoria").val('');
+        $("#hdnRuc").val('');*/
+        $("#txtNombre").val('');
+        $("#txtDescripcion").val('');
+        $("#txtNombre").val('');
+        $("#txtApellido").val('');
+        $("#txtUsuario").val('');
+        $("#txtNumeroDocumentoIdentiddad").val('');     
+    }
+    function eliminar(IdArea, IdAuditoria){
+        bootbox.confirm({
+            title: m_001,
+            message: m_0067,
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    $.post("?c=Area&a=eliminar",
+                    {
+                        idarea: IdArea,
+                        idauditoria: IdAuditoria
+
+                    }, function(data, status){
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        var response = jQuery.parseJSON(data);
+
+                        if(response.error == FLAG_CORRECTO){
+                            //alert("correcto");
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0064,
+                                size: 'small',
+                                className: 'animated bounceInRight',
+                                callback: function(){ /* your callback code */ }
+                            });
+                        }else{
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0058 + ': ' + response.error,
+                                size: 'small',                                
+                                className: 'animated wobble',
+                                callback: function(){ /* your callback code */ }
+                            });  
+                        }
+
+                        tblArea = cargarTabla();
+                    });
+                }else{
+                    bootbox.alert({
+                        title: m_001,
+                        message: m_0068,
+                        size: 'small',
+                        className: 'animated bounceInRight',
+                        callback: function(){ /* your callback code */ }
+                    });
+                }
+            }
+        });        
+    }
 </script>
