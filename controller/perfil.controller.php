@@ -90,11 +90,14 @@ class PerfilController{
 	}
 	public function guardar(){
 
+
 		$response = '';
 
 		$nombre  = $_POST["nombre"];
 		$descripcion  = $_POST["descripcion"];
 		$ruc = '';
+
+
 
 		if(isset($_POST["ruc"]) && trim($_POST["ruc"]) !=='')
 			$ruc = $_POST["ruc"];
@@ -126,23 +129,34 @@ class PerfilController{
 			$perfil->setAuditoria($response["auditoria"]);
 			$response = $this->dao->guardar($perfil);
 		}
+		//almacenando accesos por perfil
+		
+		//almacenando areas por perfil
+
+		//almacenando tipos de documento por perfil
 
 		echo json_encode($response);
+/*
 
-		/*
 		$nombre  = $_POST["nombre"];
 		$descripcion  = $_POST["descripcion"];
 		$ruc = $_POST["ruc"];		
 		$idperfil = $_POST["idperfil"];
 		$idauditoria = $_POST["idauditoria"];
+		$submenu = $_POST["submenu"];
+		$tipodocumento = $_POST["tipodocumento"];
+		$areas = $_POST["areas"];
 		echo json_encode(
 			array(
 				"nombre"=>$nombre,
 				"descripcion"=>$descripcion,
 				"ruc"=>$ruc,
 				"idperfil"=>$idperfil,
-				"idauditoria"=>$idauditoria
+				"idauditoria"=>$idauditoria,
+				"submenu"=>$submenu,
+				"tipodocumento"=>$tipodocumento,
+				"areas"=>$areas
 				));
-		*/	
+*/
 	}
 }
