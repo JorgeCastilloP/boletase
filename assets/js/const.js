@@ -101,4 +101,6 @@ var m_0068 = "Se canceló la eliminación del registro";
 var m_0062 = "Receptor no se encuentra registrado";
 //Validacion de Receptores
 var m_0063 = "Serie no se encuentra registrada";
-var m_0069 = "";
+//Privilegios
+var m_0069 = "Insuficientes privilegios para acceder a este opción";
+var m_0070 = "";

@@ -9,16 +9,16 @@ class Constants
   const FLAG_CORRECTO = 1;      
   const FLAG_INCORRECTO = 0; 
 /*Codigos de paginas*/
-  const COD_PAG_INICIO = 1;
-  const COD_PAG_COMPROBANTES = 2;
-  const COD_PAG_CONSOLIDADOS = 3;
-  const COD_PAG_LOGPROCESOS = 4;
-  const COD_PAG_USUARIOS = 5;
-  const COD_PAG_PERFILES = 6;
-  const COD_PAG_CLIENTES = 7;
-  const COD_PAG_BANNERS = 8;
-  const COD_PAG_INFORMATIVOS = 9;
-  const COD_PAG_DESCARGA_MASIVA = 10;
+  
+  const COD_PAG_DOC_BOLETA = 1;
+  const COD_PAG_DOC_CTS = 2;
+  const COD_PAG_DOC_OTROS = 3;
+  const COD_PAG_COLABORADORES = 4;
+  const COD_PAG_MAN_DOC_BOLETA = 5;
+  const COD_PAG_MAN_PERFIL = 6;
+  const COD_PAG_MAN_AREA = 7;
+  const COD_PAG_MAN_COLABORA = 8;
+
 /*Ubicación de los banners */
 
   public static function getDirBanners()
