@@ -42,7 +42,7 @@ class PerfilController{
 		}			
 		echo json_encode($response);
 	}
-	public function listar(){
+	public function listarTabla(){
 
 		$iDisplayStart=0;
 		$iDisplayLength=-1;
@@ -78,9 +78,10 @@ class PerfilController{
 			$iSortCol_0 = $orden[0]['column'];
 		}
 		$Estado = 'A';
+		$Ruc = $this->sess_usuario->getEmpresa()->getRuc();
 
 		$reg = $this->dao->listarTabla(
-			$Estado, 
+			$Ruc, $Estado, 
 			$iDisplayStart, $iDisplayLength,
 			$sSearch,
 			$sSortDir_0, $iSortCol_0);
@@ -97,7 +98,9 @@ class PerfilController{
 		$descripcion  = $_POST["descripcion"];
 		$ruc = '';
 
-
+		$lstSubmenu = $_POST["lstSubmenu"];
+		$lstArea = $_POST["lstArea"];
+		$lstTipoDocumento = $_POST["lstTipoDocumento"];
 
 		if(isset($_POST["ruc"]) && trim($_POST["ruc"]) !=='')
 			$ruc = $_POST["ruc"];
@@ -118,22 +121,14 @@ class PerfilController{
 
 		$auditoria = new Auditoria();
 		$auditoria = Constants::getAuditoria($auditoria);		
+		$perfil->setAuditoria($auditoria);
 
-		if(isset($_POST["idauditoria"]) && trim($_POST["idauditoria"]) !=='')
-			$auditoria->setId($_POST["idauditoria"]);
+		$perfil->setListSubmenu($lstSubmenu);
+		$perfil->setListArea($lstArea);
+		$perfil->setListTipoDocumento($lstTipoDocumento);
 
-		$auditoriadao = new AuditoriaDAO();
-		$response = $auditoriadao->guardar($auditoria);
+		$response = $this->dao->guardar($perfil);		
 
-		if($response["error"] == Constants::FLAG_CORRECTO){
-			$perfil->setAuditoria($response["auditoria"]);
-			$response = $this->dao->guardar($perfil);
-		}
-		//almacenando accesos por perfil
-		
-		//almacenando areas por perfil
-
-		//almacenando tipos de documento por perfil
 
 		echo json_encode($response);
 /*

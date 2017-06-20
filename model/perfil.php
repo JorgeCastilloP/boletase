@@ -11,6 +11,9 @@ class Perfil implements JsonSerializable
 	private $Descripcion;
 	private $Estado;
 	private $Auditoria;
+	private $ListSubmenu;
+	private $ListArea;
+	private $ListTipoDocumento;
 	
  	public function __CONSTRUCT() {
  		$this->Id = null;
@@ -28,7 +31,10 @@ class Perfil implements JsonSerializable
             'Nombre' => $this->Nombre,
             'Descripcion' => $this->Descripcion,
             'Estado' => $this->Estado,
-            'Auditoria' => $this->Auditoria
+            'Auditoria' => $this->Auditoria,
+            'ListSubmenu' => $this->ListSubmenu,
+            'ListArea' => $this->ListArea,
+            'ListTipoDocumento' => $this->ListTipoDocumento
         ];
     }
 
@@ -50,6 +56,15 @@ class Perfil implements JsonSerializable
 	public function getAuditoria(){
 		return $this->Auditoria;
 	}
+	public function getListSubmenu(){
+		return $this->ListSubmenu;
+	}
+	public function getListArea(){
+		return $this->ListArea;
+	}
+	public function getListTipoDocumento(){
+		return $this->ListTipoDocumento;
+	}	
 
 	public function setId($Id){
 		$this->Id = $Id;
@@ -68,5 +83,14 @@ class Perfil implements JsonSerializable
 	}
 	public function setAuditoria($Auditoria){
 		$this->Auditoria = $Auditoria;
+	}
+	public function setListSubmenu($ListSubmenu){
+		$this->ListSubmenu = $ListSubmenu;
+	}
+	public function setListArea($ListArea){
+		$this->ListArea = $ListArea;
+	}
+	public function setListTipoDocumento($ListTipoDocumento){
+		$this->ListTipoDocumento = $ListTipoDocumento;
 	}
 }

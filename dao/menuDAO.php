@@ -22,7 +22,7 @@ class MenuDAO
 		{
 			$sQuery = "
 				select 
-					select id_menu, desc_menu, estado_menu 
+					id_menu, desc_menu, iconfa_menu, estado_menu 
 				from 
 					menu ";
 
@@ -40,7 +40,8 @@ class MenuDAO
 				$menu = new Menu();
 				$menu->setId($reg[0]);
 			    $menu->setDescripcion($reg[1]);
-			    $menu->setEstado($reg[2]);
+			    $menu->setIcon($reg[2]);
+			    $menu->setEstado($reg[3]);
 
 			    array_push($a_respuesta, $menu);
 			}	

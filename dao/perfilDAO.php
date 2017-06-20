@@ -2,6 +2,9 @@
 
 require_once 'model/perfil.php';
 require_once 'model/auditoria.php';
+require_once 'model/submenu.php';
+require_once 'model/area.php';
+require_once 'model/tipodocumento.php';
 
 
 class PerfilDAO
@@ -70,7 +73,7 @@ class PerfilDAO
 		return $a_respuesta;		
 	}
 	public function listarTabla(
-		$Estado, 
+		$Ruc, $Estado, 
 		$iDisplayStart, $iDisplayLength, $sSearch, $sSortDir_0, $iSortCol_0){
 		try
 		{
@@ -84,7 +87,7 @@ class PerfilDAO
 			from 
 				perfil p 
 			inner join 
-				empresa e on e.ruc_empresa = p.ruc_empresa ";
+				empresa e on e.ruc_empresa = p.ruc_empresa and (e.ruc_empresa = '".$Ruc."' or '".$Ruc."' = 'T')";
 
 			$sLimit = "";
 
@@ -207,14 +210,15 @@ class PerfilDAO
 		try {
 
 			$sQuery = "";
+			$this->pdo->beginTransaction();
 
 			if(is_null($perfil->getId())){
 				$modulo .= "-nuevo";
 				$sQuery = "
 				        select 
-				        	rid_perfil, rv_msj_error 
+				        	rv_msj_error 
 				        from 
-				        	perfil_nuevo(?,?,?,?);
+				        	sp_perfil_nuevo(?,?,?,?,?,?,?,?,?,?);
 				    ";
 				$stm = $this->pdo->prepare($sQuery);
 
@@ -223,15 +227,27 @@ class PerfilDAO
 						$perfil->getEmpresa()->getRuc(),
 						$perfil->getNombre(), 
 						$perfil->getDescripcion(), 
-						$perfil->getAuditoria()->getId()
+						$perfil->getAuditoria()->getUsucrea(),
+						$perfil->getAuditoria()->getIpcrea(),
+						$perfil->getAuditoria()->getPccrea(),
+						$perfil->getAuditoria()->getFechacrea(),
+						Constants::to_pg_array($perfil->getListSubmenu()),
+						Constants::to_pg_array($perfil->getListArea()),
+						Constants::to_pg_array($perfil->getListTipoDocumento())
 						)
 					);
 
 				$row = $stm->fetch();			
 
 				if($row){
-					$error = ($row['rv_msj_error'] == null ? Constants::FLAG_CORRECTO : $row['rv_msj_error']);
-					$perfil->setId($row['rid_perfil']);
+
+					if($row['rv_msj_error'] == null){
+						$error = Constants::FLAG_CORRECTO;
+						$this->pdo->commit();
+					}else{
+						$error = $row['rv_msj_error'];
+						$this->pdo->rollBack();
+					}
 				}
 
 			}else{
@@ -240,36 +256,49 @@ class PerfilDAO
 				        select 
 				        	rv_msj_error 
 				        from 
-				        	perfil_editar(?,?,?,?,?,?);
+				        	sp_perfil_editar(?,?,?,?,?,?,?,?,?,?,?);
 				    ";
 				$stm = $this->pdo->prepare($sQuery);
 
 				$stm->execute(
 					array(
-						$perfil->getId(), 
+						$perfil->getId(),
 						$perfil->getEmpresa()->getRuc(),
 						$perfil->getNombre(), 
 						$perfil->getDescripcion(), 
-						$perfil->getEstado(), 
-						$perfil->getAuditoria()->getId()
+						$perfil->getAuditoria()->getUsucrea(),
+						$perfil->getAuditoria()->getIpcrea(),
+						$perfil->getAuditoria()->getPccrea(),
+						$perfil->getAuditoria()->getFechacrea(),
+						Constants::to_pg_array($perfil->getListSubmenu()),
+						Constants::to_pg_array($perfil->getListArea()),
+						Constants::to_pg_array($perfil->getListTipoDocumento())
 						)
 					);								
 
 				$row = $stm->fetch();			
 
 				if($row){
-					$error = ($row['rv_msj_error'] == null ? Constants::FLAG_CORRECTO : $row['rv_msj_error']);
-				}				
+					if($row['rv_msj_error'] == null){
+						$error = Constants::FLAG_CORRECTO;
+						$this->pdo->commit();
+					}else{
+						$error = $row['rv_msj_error'];
+						$this->pdo->rollBack();
+					}			
+				}
 			}
 
 
 		} catch (Exception $e) {
+			$this->pdo->rollBack();
 			$error = $e->getMessage();				
 		}
 
+
+
 		return array(
 					"modulo" => $modulo,
-					"perfil" => $perfil,
 	    			"error" => $error
 	    			);	
 

@@ -100,7 +100,6 @@
                 <fieldset>
                     <div class="form-group">
                         <input id="hdnIdPerfil" name="hdnIdPerfil" type="hidden">
-                        <input id="hdnIdAuditoria" name="hdnIdAuditoria" type="hidden">
                         <input id="hdnRuc" name="hdnRuc" type="hidden">
                     </div>                
                     <div class="form-group">
@@ -118,71 +117,6 @@
                         <div class="col-lg-12">
                             <div class="dd" id="nestable">
                                 <ol class="dd-list">
-
-                                    <li class="dd-item dd-collapsed" data-id="1">
-                                        <div class="dd-handle">
-                                            <span class="label label-info"><i class="fa fa-users"></i></span> Colaboradores
-                                        </div>
-                                        <ol class="dd-list">
-                                            <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="4" class="input-mini" />Seleccione
-                                                </label>
-                                            </div>
-                                        </ol>
-                                    </li>
-
-                                    <li class="dd-item dd-collapsed" data-id="2">
-                                        <div class="dd-handle">
-                                            <span class="label label-warning"><i class="fa fa-users"></i></span> Documentos
-                                        </div>
-                                        <ol class="dd-list">
-                                            <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="1" class="input-mini" />Boleta
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="2" class="input-mini" />CTS
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="3" class="input-mini" />Otros
-                                                </label>
-                                            </div>
-                                        </ol>
-                                    </li>
-
-                                    <li class="dd-item dd-collapsed" data-id="3">
-                                        <div class="dd-handle">
-                                            <span class="label label-success"><i class="fa fa-edit"></i></span> Mantenimiento
-                                        </div>
-                                        <ol class="dd-list">
-                                            <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="5" class="input-mini" />Documentos
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="6" class="input-mini" />Perfiles
-                                                </label>
-                                            </div>
-                                           <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="7" class="input-mini" />Grupos
-                                                </label>
-                                            </div>
-                                           <div class="checkbox">
-                                                <label class="checkbox" for="chkSubMenu">
-                                                    <input id="chkSubMenu" name="chkSubMenu" type="checkbox" value="8" class="input-mini" />Usuarios
-                                                </label>
-                                            </div>                                            
-                                        </ol>
-                                    </li>
-
                                 </ol>
                             </div>
                         </div>
@@ -209,45 +143,18 @@
                 </fieldset>
                 </form>
             </div>
-            <!--
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-            -->
         </div>
     </div>
 </div>
 <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-<script src="assets/js/plugins/steps/jquery.steps.min.js"></script>
+<script src="assets/js/plugins/steps/jquery.steps.js"></script>
 <script src="assets/js/plugins/validate/jquery.validate.min.js"></script>
-
-
 <script src="assets/js/plugins/nestable/jquery.nestable.js"></script>
 
 <script>
     $(document).ready(function() {
 
-        
-        $.getJSON("?c=Tipodocumento&a=listar", function (data) {
-            var items;
-            $.each(data, function (i, item) {
-                //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
-                $("#tipo_documento").append(addNodeChekBox('chkTipodocumento', item.Id, item.Descripcion, item.Estado));
-            });
-        });
-
-        $.getJSON("?c=Area&a=listar", function (data) {
-            var items;
-            $.each(data, function (i, item) {
-                //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
-                $("#areas").append(addNodeChekBox('chkAreas', item.Id, item.Nombre, item.Estado));
-            });
-        });         
-        
-
         var tblPerfil = $('#tblPerfil').DataTable();
-
         tblPerfil = cargarTabla();
         /*
         $("#frm-nuevoperfil").validate({
@@ -306,12 +213,6 @@
                 }
         });
         */
-
-
-        $('#modalPerfil').on('show.bs.modal', function (e) {
-            $('#nestable').nestable('collapseAll').nestable('collapseAll');
-        });
-
         $("#frm-nuevoperfil").steps({
                 bodyTag: "fieldset",
                 onStepChanging: function (event, currentIndex, newIndex)
@@ -322,6 +223,7 @@
                     {
                         return true;
                     }
+
 
                     if(newIndex === 2 && $('#nestable input:checked').length === 0)
                     {
@@ -356,6 +258,48 @@
                 onStepChanged: function (event, currentIndex, priorIndex)
                 {
                     /*
+                    var parameter = {
+                        idperfil: $("#hdnIdPerfil").val()
+                    };                    
+
+                    switch(currentIndex) {
+                        case 1:
+
+                            $("#nestable > ol").empty();
+                            $.getJSON("?c=PerfilSubmenu&a=listar", parameter, function (data) {
+                                var items = "";
+
+                                $.each(data, function (i, item) {
+
+                                    items += addNodeNestable(item.Id, item.Icon, item.Descripcion, item.ListSubmenu);
+                                });
+                                $("#nestable > ol").append(items);
+
+                            });
+                            
+                            break;
+                        case 2:
+                            $("#areas").empty();
+                            $.getJSON("?c=Perfilarea&a=listar", parameter, function (data) {
+                                $.each(data, function (i, item) {
+                                    //console.log(item.Id);
+                                    //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
+                                    $("#areas").append(addNodeChekBox('chkAreas', item.Id, item.Nombre, item.Estado));
+                                });
+                            });
+                            break;
+                        case 3:
+                        $("#tipo_documento").empty();
+                            $.getJSON("?c=Perfiltipodocumento&a=listar", parameter, function (data) {
+                                $.each(data, function (i, item) {
+                                    //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
+                                    $("#tipo_documento").append(addNodeChekBox('chkTipodocumento', item.Id, item.Descripcion, item.Estado));
+                                });
+                            });
+                            break;
+                    }
+                    */    
+                    /*
                     // Suppress (skip) "Warning" step if the user is old enough.
                     if (currentIndex === 2 && Number($("#age").val()) >= 18)
                     {
@@ -374,14 +318,10 @@
                 {
 
                     var form = $(this);
-
                     // Disable validation on fields that are disabled.
                     // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
                     form.validate().settings.ignore = ":disabled";
-
                     // Start validation; Prevent form submission if false
-                    //console.log(form.serialize());
-
                     return form.valid();
 
                 },
@@ -392,20 +332,19 @@
                     $.post("?c=Perfil&a=guardar",
                     {
                         idperfil: $("#hdnIdPerfil").val(),
-                        idauditoria: $("#hdnIdAuditoria").val(),
                         ruc: $("#hdnRuc").val(),
                         nombre: $("#txtNombre").val(),
                         descripcion: $("#txtDescripcion").val(),
-                        submenu: $('input[name="chkSubMenu"]:checked').map(function(){return $(this).val();}).get(),
-                        tipodocumento: $('input[name="chkTipodocumento"]:checked').map(function(){return $(this).val();}).get(),
-                        areas: $('input[name="chkAreas"]:checked').map(function(){return $(this).val();}).get()
+                        lstSubmenu: $('input[name="chkSubMenu"]:checked').map(function(){return $(this).val();}).get(),
+                        lstTipoDocumento: $('input[name="chkTipodocumento"]:checked').map(function(){return $(this).val();}).get(),
+                        lstArea: $('input[name="chkAreas"]:checked').map(function(){return $(this).val();}).get()
 
                     }, function(data, status){
 
                         $('#modalPerfil').modal('toggle');
                         var response = jQuery.parseJSON(data);
-                        console.log(response);
-                        /*                        
+                        //console.log(response);
+                   
                         if(response.error == FLAG_CORRECTO){
                             //alert("correcto");
                             bootbox.alert({
@@ -424,8 +363,8 @@
                                 callback: function(){ }
                             });  
                         }
-                        */
                         tblPerfil = cargarTabla();
+                        $("#frm-nuevoperfil").steps('reset');
                     });                                   
 
                 }                         
@@ -441,6 +380,13 @@
                         }*/
                     });
 
+     
+
+        $('#modalPerfil').on('show.bs.modal', function (e) {
+            $('#nestable').nestable('collapseAll').nestable('collapseAll');
+        });  
+                         
+
         $('#tblPerfil tbody').on('click', 'td.link-control > .editar', function () {
 
             $('#modalPerfil').modal('show');
@@ -448,11 +394,40 @@
             var row = tblPerfil.row(tr);
 
             $("#hdnIdPerfil").val(row.data().Id);
-            $("#hdnIdAuditoria").val(row.data().Auditoria.Id);
             $("#hdnRuc").val(row.data().Empresa.Ruc);
             $("#txtNombre").val(row.data().Nombre);
             $("#txtDescripcion").val(row.data().Descripcion);
 
+            var parameter = {
+                idperfil: $("#hdnIdPerfil").val()
+            };               
+
+            $("#nestable > ol").empty();
+            $.getJSON("?c=PerfilSubmenu&a=listar", parameter, function (data) {
+                var items = "";
+
+                $.each(data, function (i, item) {
+
+                    items += addNodeNestable(item.Id, item.Icon, item.Descripcion, item.ListSubmenu);
+                });
+                $("#nestable > ol").append(items);
+
+            });
+            $("#areas").empty();
+            $.getJSON("?c=Perfilarea&a=listar", parameter, function (data) {
+                $.each(data, function (i, item) {
+                    //console.log(item.Id);
+                    //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
+                    $("#areas").append(addNodeChekBox('chkAreas', item.Id, item.Nombre, item.Estado));
+                });
+            });
+            $("#tipo_documento").empty();
+                $.getJSON("?c=Perfiltipodocumento&a=listar", parameter, function (data) {
+                    $.each(data, function (i, item) {
+                        //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
+                        $("#tipo_documento").append(addNodeChekBox('chkTipodocumento', item.Id, item.Descripcion, item.Estado));
+                    });
+                });
         });
 
         $('#modalPerfil').on('hidden.bs.modal', function () {
@@ -470,7 +445,7 @@
             "ajax": {
                 "type": "POST", 
                 //"contentType": "application/json; charset=utf-8",        
-                "url": '?c=Perfil&a=listar',
+                "url": '?c=Perfil&a=listarTabla',
                 /*
                 "data": function ( d ){
                     d.RowsDeleted = rows_deleted;
@@ -520,13 +495,12 @@
     }
     function limpiar(){
         $("#hdnIdPerfil").val('');
-        $("#hdnIdAuditoria").val('');
         $("#hdnRuc").val('');
         $("#txtNombre").val('');
-        $("#txtDescripcion").val('');        
+        $("#txtDescripcion").val('');
+        $("#frm-nuevoperfil").steps('reset');   
     }
     function eliminar(IdPerfil, IdAuditoria){
-        addNode();
 
         bootbox.confirm({
             title: m_001,
@@ -592,34 +566,58 @@
         
         append += 
             "<li class='dd-item dd-collapsed' data-id='" + Id + "'>" + 
+                "<button data-action='collapse' type='button' style='display: none;''>Collapse</button><button data-action='expand' type='button' style=''>Expand</button>" + 
                 "<div class='dd-handle'>" + 
                     "<span class='label label-warning'><i class='fa " + Icon +"'></i></span> "+ MenuName +
                 "</div>";
         append += 
                 "<ol class='dd-list'>";
 
-        append +=                 
-            "<div class='checkbox'>" +
-                "<label class='checkbox' for='" + MenuName + "'>"+
-                    "<input name='" + MenuName + "' type='checkbox' value='" + Id + "' class='input-mini' checked/> " + MenuName + 
-                "</label>" +
-            "</div>";
+        //console.log(elementos);
+        /*
+        for (i = 0; i < elementos; i++) { 
+            console.log(ArraySubmenu[i].Estado);
+        }
+        */
 
         for (i = 0; i < elementos; i++) { 
+            if(ArraySubmenu[i].Estado == 'A'){
+                append +=                 
+                    "<div class='checkbox'>" +
+                        "<label class='checkbox' for='chkSubMenu'>"+
+                            "<input id='chkSubMenu' name='chkSubMenu' type='checkbox' value='" + ArraySubmenu[i].Id+ "' class='input-mini' checked/>" + ArraySubmenu[i].Descripcion + 
+                        "</label>" +
+                    "</div>";
+            }else{
+                append +=                 
+                    "<div class='checkbox'>" +
+                        "<label class='checkbox' for='chkSubMenu'>"+
+                            "<input id='chkSubMenu' name='chkSubMenu' type='checkbox' value='" + ArraySubmenu[i].Id+ "' class='input-mini'/> " + ArraySubmenu[i].Descripcion + 
+                        "</label>" +
+                    "</div>";                
+            }
 
+        } 
+
+        /*           
+        }else{
             append +=                 
                 "<div class='checkbox'>" +
                     "<label class='checkbox' for='" + MenuName + "'>"+
-                        "<input name='" + MenuName + "' type='checkbox' value='" + ArraySubmenu[i].Id+ "' class='input-mini' checked/> " + ArraySubmenu[i].Descripcion + 
+                        "<input name='" + MenuName + "' type='checkbox' value='" + Id + "' class='input-mini' checked/> " + MenuName + 
                     "</label>" +
-                "</div>";                     
+                "</div>";
         }
+
+*/
         append += 
                 "</ol>";                
         append += 
             "</li>";
 
-        $("#nestable > ol").append(append);     
+        return append;
+
+        //$("#nestable > ol").append(append);     
     }
     function addNodeChekBox(Tipo, Id, Nombre, Estado){
         var append = "";
@@ -630,7 +628,14 @@
                     "<label class='checkbox' for='" + Tipo + "'>"+
                         "<input name='" + Tipo + "' type='checkbox' value='" + Id + "' class='input-mini' checked/> " + Nombre + 
                     "</label>" +
-                "</div>";    
+                "</div>";
+        else
+            append +=                 
+                "<div class='checkbox'>" +
+                    "<label class='checkbox' for='" + Tipo + "'>"+
+                        "<input name='" + Tipo + "' type='checkbox' value='" + Id + "' class='input-mini'/> " + Nombre + 
+                    "</label>" +
+                "</div>";         
         return append;
     }
   

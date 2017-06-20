@@ -6,13 +6,17 @@ class Menu implements JsonSerializable
 	private $Id;
 	private $Descripcion;
 	private $Estado;
+	private $Icon;
+	private $ListSubmenu;
 
 
     public function jsonSerialize() {
         return [
             'Id' => $this->Id,
             'Descripcion' => $this->Descripcion,
-            'Estado' => $this->Estado
+            'Estado' => $this->Estado,
+            'Icon' => $this->Icon,
+            'ListSubmenu' => $this->ListSubmenu
         ];
     }
 
@@ -25,6 +29,12 @@ class Menu implements JsonSerializable
 	public function getEstado(){
 		return $this->Estado;
 	}
+	public function getIcon(){
+		return $this->Icon;
+	}
+	public function getListSubmenu(){
+		return $this->ListSubmenu;
+	}
 
 	public function setId($Id){
 		$this->Id = $Id;
@@ -35,4 +45,10 @@ class Menu implements JsonSerializable
 	public function setEstado($Estado){
 		$this->Estado = $Estado;
 	}
+	public function setIcon($Icon){
+		$this->Icon = $Icon;
+	}	
+	public function setListSubmenu($ListSubmenu){
+		$this->ListSubmenu = $ListSubmenu;
+	}		
 }
