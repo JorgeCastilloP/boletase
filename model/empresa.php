@@ -11,6 +11,7 @@ class Empresa implements JsonSerializable
 	private $Correo;
 	private $Password;
 	private $Estado;
+	private $Usuario;
 
 
     public function jsonSerialize() {
@@ -21,6 +22,7 @@ class Empresa implements JsonSerializable
             'Direccion' => $this->Direccion,
             'Telefono' => $this->Telefono,
             'Correo' => $this->Correo,
+            'Usuario' => $this->Usuario,
             'Password' => $this->Password,
             'Estado' => $this->Estado
         ];
@@ -51,6 +53,11 @@ class Empresa implements JsonSerializable
 		return $this->Estado;
 	}
 
+	public function getUsuario()
+	{
+		return $this->Usuario;
+	}
+
 	public function setRuc($Ruc){
 		$this->Ruc = $Ruc;
 	}
@@ -75,4 +82,8 @@ class Empresa implements JsonSerializable
 	public function setEstado($Estado){
 		$this->Estado = $Estado;
 	}
+	public function setUsuario($Usuario){
+		$this->Usuario = $Usuario;
+	}
+
 }

@@ -154,4 +154,14 @@ class PerfilController{
 				));
 */
 	}
+
+	public function listarcbo(){
+
+		$Estado= 'A';
+		$ruc='20100011884';
+		$reg=$this->dao->listar($ruc,$Estado);
+
+		echo json_encode($reg);
+	
+	}
 }

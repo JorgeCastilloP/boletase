@@ -23,6 +23,7 @@ class AreaController{
 
 		$idArea  = $_POST["idarea"];
 		$idAuditoria  = $_POST["idauditoria"];
+		$ruc=$_POST["empresaruc"];
 
 		$auditoria = new Auditoria();
 		$auditoria = Constants::getAuditoria($auditoria);
@@ -31,9 +32,14 @@ class AreaController{
 		$response = $auditoriadao->guardar($auditoria);
 
 
+
 		$area = new Area();
 		$area->setId($idArea);
 		$area->setEstado('I');
+
+		$empresa = new Empresa();
+		$empresa->setRuc($ruc);
+		$area->setEmpresa($empresa);
 
 		if($response["error"] == Constants::FLAG_CORRECTO){
 			$area->setAuditoria($response["auditoria"]);
@@ -149,4 +155,17 @@ class AreaController{
 				));
 		*/	
 	}
+
+	public function listarcbo()
+	{
+		$Estado = 'A';
+		$ruc='20100011884';
+		$reg=$this->dao->listar($ruc,$Estado);
+
+		echo json_encode($reg);
+		
+
+	}
+
+
 }
