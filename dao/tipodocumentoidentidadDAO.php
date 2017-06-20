@@ -30,6 +30,48 @@ class TipodocumentoidentidadDAO
 						tipo_documento_identidad ";
 						
 			if($Estado !== 'T')
+				$sQuery .= "where estado_tipo_documento_identidad  = '".$Estado."'";
+
+			$stm = $this->pdo->prepare($sQuery);
+			$stm->execute();
+
+			/*return $stm->fetchAll(PDO::FETCH_OBJ);*/
+			$a_respuesta = array();
+
+			while($reg = $stm->fetch())
+			{
+				$tdi = new TipoDocumentoIdentidad();
+				$tdi->setId($reg[0]);
+			    $tdi->setNombre($reg[1]);
+			    /*$tdi->setEstado($reg[2]);*/
+			    array_push($a_respuesta, $tdi);
+			}	
+
+			
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}	
+		
+		return $a_respuesta;
+
+	}	
+
+	//Listado por session
+	/*	public function listarPorSession($Estado){
+	
+		try
+		{
+			$sQuery = "
+					select 
+						id_tipo_documento_identidad, 
+						nombre_tipo_documento_identidad, 
+						estado_tipo_documento_identidad 
+					from 
+						tipo_documento_identidad ";
+						
+			if($Estado !== 'T')
 				$sQuery .= "where estado_tipo_documento_identidad  = '".$Estado."'"
 
 			$stm = $this->pdo->prepare($sQuery);
@@ -51,7 +93,8 @@ class TipodocumentoidentidadDAO
 		}	
 		
 		return $a_respuesta;	
-	}	
+	}	*/
+
 	public function guardar($tipodocumentoidentidad){
 	
 		$error_desc = '';				

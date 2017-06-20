@@ -38,8 +38,10 @@
                     <table  id="tblUsuario" class="table table-striped table-bordered table-hover dataTables-example" >
                         <thead>
                             <tr>
-
+                                <th>IdArea</th>
+                                <th>IdPerfil</th>
                                 <th>Nombre</th>
+                                <th>IdAuditoria</th>
                                 <th>Apellidos</th>
                                 <th>Usuario</th>
                                 <th>Nombres</th>
@@ -61,7 +63,7 @@
 <!-- Desde Aca es la ventana Modal-->
     <div class="modal-dialog">
         <div class="modal-content animated bounceInRight">
-        <form id="frm-nuevoarea">
+        <form id="frm-nuevoempleado">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Nuevo Usuario</h4>
@@ -85,9 +87,12 @@
                 </div>
                 -->
                 <div class="form-group">
-                    <input id="hdnIdArea" name="hdnIdArea" type="hidden">
+                    <input id="hdnIdEmpleado" name="hdnIdEmpleadoArea" type="hidden">
                     <input id="hdnIdAuditoria" name="hdnIdAuditoria" type="hidden">
                     <input id="hdnRuc" name="hdnRuc" type="hidden">
+                    <input id="hdnIdArea" name="hdnIdArea" type="hidden">
+                    <input id="hdnIdPerfil" name="hdnIdPerfil" type="hidden">
+
                 </div>                
                 <div class="form-group">
                     <label>Nombre</label>
@@ -99,12 +104,8 @@
                 </div>
                  <div class="form-group">
                     <label>Tipo Documento Identidad</label>
-                    <select class="form-control required">
-                       <option>--- Seleccionar----</option> 
-                       <option>Cédula diplomatica de Identidad</option> 
-                       <option>Pasaporte</option>
-                       <option>Registro Único de Contribuyentes</option>
-                       <option>Canet de Extranjeria</option>  
+                    <select id="slttipodocumentoidentidad" class="form-control required">
+                        
                     </select>
                                         
                 </div>
@@ -115,11 +116,11 @@
 
                 <div class="form-group">
                     <label>Correo Electrónico</label>
-                    <input id="txtCorreo" name="txtCorreo" type="password" class="form-control required" aria-required="true">                    
+                    <input id="txtCorreo" name="txtCorreo" type="text" class="form-control required" aria-required="true">                    
                 </div>
                 <div class="form-group">
                     <label>Telefono/Celular</label>
-                    <input id="txtTelefono" name="txtTelefono" type="password" class="form-control required" aria-required="true">                    
+                    <input id="txtTelefono" name="txtTelefono" type="text" class="form-control required" aria-required="true">                    
                 </div>
                 <div class="form-group">
                     <label>Usuario</label>
@@ -127,19 +128,15 @@
                 </div>
                 <div class="form-group">
                     <label>Area</label>
-                    <select class="form-control required">
-                       <option>--- Seleccionar----</option> 
-                       <option>Ventas</option> 
-                       <option>Administracion</option>
+                    <select id="sltarea" class="form-control required">
+                         
                     </select>                   
                 </div>
                 <div class="form-group">
                     <label>Perfil</label>
-                      <select class="form-control required">
-                       <option>--- Seleccionar----</option> 
-                       <option>Administrador</option> 
-                       <option>Empleado</option>
-                    </select>                      
+                   <select id="sltperfil" class="form-control required">
+                         
+                    </select>                     
                 </div>
                  
              
@@ -162,35 +159,49 @@
 <script>
     $(document).ready(function() {
 
+        var sltidarea;
+        var sltidperfil;
+        var stlidtdi;
         var tblUsuario = $('#tblUsuario').DataTable();
 
         tblUsuario = cargarTabla();
 
-        $("#frm-nuevoarea").validate({
+        $("#frm-nuevoempleado").validate({
                 rules: {
                     txtNombre: {
                         required: true
                     },
-                    txtDescripcion: {
-                        required: false
+                    txtApellido: {
+                        required: true
                     }                    
                 },
                 messages: {
                     txtNombre: {
-                        required: "asdas"
+                        required: "Favor de ingresar el nombre"
                     },
-                    txtDescripcion: {
-                        required: "asdas"
+                    txtApellido: {
+                        required: "Favor de ingresar el apellido"
                     }                    
                 },
                 submitHandler: function(form) {
-                    $.post("?c=Area&a=guardar",
+                    $.post("?c=Empleado&a=guardar",
                     {
-                        idarea: $("#hdnIdArea").val(),
-                        idauditoria: $("#hdnIdAuditoria").val(),
-                        ruc: $("#hdnRuc").val(),
                         nombre: $("#txtNombre").val(),
-                        descripcion: $("#txtDescripcion").val()
+                        apellido: $("#txtApellido").val(),
+                        idtdi: sltidtdi,
+                        nrodocumentoidentidad: $("#txtNumeroDocumentoIdentiddad").val(),
+                        correo: $("#txtCorreo").val(),
+                        telefono: $("#txtTelefono").val(),
+                        usuario: $("txtUsuario").val(),
+                        idarea: $("#hdnIdArea").val(),
+                        idperfil: $("#hdnIdPerfil").val(),
+                        idauditoria: $("#hdnIdAuditoria").val(),
+                        //ruc: $("#hdnRuc").val(),
+                        
+                        
+                        
+
+
                     }, function(data, status){
                         //alert("Data: " + data + "\nStatus: " + status);
                         $('#modalArea').modal('toggle');
@@ -222,8 +233,10 @@
                 }
         });
 
+        //listar los combos
 
-        
+        //
+
 
         $('#tblUsuario tbody').on('click', 'td.link-control > .editar', function () {
 
@@ -231,14 +244,28 @@
             var tr = $(this).closest('tr');
             var row = tblUsuario.row(tr);
 
-            /*$("#hdnIdArea").val(row.data().Id);
+            $("#hdnIdEmpleado").val(row.data().Id);
             $("#hdnIdAuditoria").val(row.data().Auditoria.Id);
-            $("#hdnRuc").val(row.data().Empresa.Ruc);*/
+            $("#hdnIdArea").val(row.data().Area.Id);
+            $("#hdnIdPerfil").val(row.data().Perfil.Id);
+            //$("#hdnRuc").val(row.data().Empresa.Ruc);*/
             $("#txtNombre").val(row.data().Nombres);
             $("#txtApellido").val(row.data().Apellidos);
             $("#txtUsuario").val(row.data().Usuario);
             $("#txtNumeroDocumentoIdentiddad").val(row.data().NumeroDocumento);
 
+            $("#slttipodocumentoidentidad option").removeAttr("selected");
+           $("#sltarea option").removeAttr("selected");
+            $("#sltperfil option").removeAttr("selected");
+
+            //
+            $("#slttipodocumentoidentidad option[value= "+row.data().TipoDocumentoIdentidad+"]").attr("selected",true);
+            $("#sltarea option[value= "+row.data().Area.Id+"]").attr("selected",true);
+            $("#sltperfil option[value= "+row.data().Perfil.Id+"]").attr("selected",true);
+            
+
+
+            
         });
 
         $('#modalArea').on('hidden.bs.modal', function () {
@@ -271,12 +298,12 @@
             },
             'columnDefs': [
                 {
-                    "targets": [ 0, 1, 2],
+                    "targets": [ 0, 1, 2, 3,4,5],
                     "visible": false,
                     "searchable": false
                 },
                 {
-                    "targets": [6],
+                    "targets": [9],
                     "searchable": false, 
                     "orderable": false,
                     "className": 'link-control',
@@ -286,7 +313,7 @@
                     '<button class="btn btn-success btn-xs btn-space editar">'+
                         '<i class="fa fa-wrench"></i> Editar'+
                     '</button>' + 
-                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Id + ')">'+
+                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Auditoria.Id + ',' + data.Empresa.Ruc+ ','+ data.Perfil.Id + ',' + data.Area.Id+')">'+
                         '<i class="fa fa-close"></i> Eliminar'+
                     '</button>';                      
                     }
@@ -294,7 +321,10 @@
             ],
      
             "columns": [
+                        { "data": 'Area.Id'},
+                        { "data": 'Perfil.Id'},
                         { "data": 'Id'},
+                        { "data": 'Auditoria.Id'},              
                         { "data": 'NumeroDocumento'},
                         { "data": 'TipoDocumentoIdentidad'},
                         { "data": 'Nombres'},
@@ -308,17 +338,28 @@
         return table;        
     }
     function limpiar(){
-        /*$("#hdnIdArea").val('');
+
+
+        $("#hdnIdEmpleado").val('');
         $("#hdnIdAuditoria").val('');
-        $("#hdnRuc").val('');*/
+       // $("#hdnRuc").val('');
         $("#txtNombre").val('');
         $("#txtDescripcion").val('');
         $("#txtNombre").val('');
         $("#txtApellido").val('');
         $("#txtUsuario").val('');
-        $("#txtNumeroDocumentoIdentiddad").val('');     
+        $("#txtNumeroDocumentoIdentiddad").val('');
+
+        $("#slttipodocumentoidentidad option").removeAttr("selected");
+        $("#sltarea option").removeAttr("selected");
+        $("#sltperfil option").removeAttr("selected");
+
+        $("#slttipodocumentoidentidad option[value= "+0+"]").attr("selected",true);
+        $("#sltarea option[value= "+0+"]").attr("selected",true);
+        $("#sltperfil option[value= "+0+"]").attr("selected",true);
+
     }
-    function eliminar(IdArea, IdAuditoria){
+    function eliminar(IdEmpleado, IdAuditoria,EmpresaRuc,IdPerfil,IdArea){
         bootbox.confirm({
             title: m_001,
             message: m_0067,
@@ -332,10 +373,13 @@
             },
             callback: function (result) {
                 if(result){
-                    $.post("?c=Area&a=eliminar",
+                    $.post("?c=Empleado&a=eliminar",
                     {
-                        idarea: IdArea,
-                        idauditoria: IdAuditoria
+                        idempleado: IdEmpleado,
+                        idauditoria: IdAuditoria,
+                        empresaruc: EmpresaRuc,
+                        idperfil:IdPerfil,
+                        idarea:IdArea
 
                     }, function(data, status){
                         //alert("Data: " + data + "\nStatus: " + status);
@@ -374,4 +418,69 @@
             }
         });        
     }
+
+
+
+//Cargar Tipo de Documento
+      $.getJSON("?c=TipoDocumentoIdentidad&a=listar", 
+    {
+       
+    },
+    function (data) {
+        var items = "<option value='0' id='0'>SELECCIONE..</option>";
+        $.each(data, function (i, item) {
+           items +="<option value=" + item.Id + " id='"+ item.Id + "'" +">" + item.Nombre + "</option>";
+        });
+    $("#slttipodocumentoidentidad").html(items); 
+    });
+
+
+
+
+//Cargar Areas
+          $.getJSON("?c=Area&a=Listarcbo", 
+    {
+       
+    },
+    function (data) {
+        var items = "<option value='0' id='0'>SELECCIONE..</option>";
+        $.each(data, function (i, item) {
+           items +="<option value=" + item.Id + ">" + item.Nombre + "</option>";
+        });
+    $("#sltarea").html(items); 
+    });
+
+
+
+
+//Cargar Perfiles
+          $.getJSON("?c=Perfil&a=Listarcbo", 
+    {
+       
+    },
+    function (data) {
+        var items = "<option value='0' id='0'>SELECCIONE..</option>";
+        $.each(data, function (i, item) {
+           items +="<option value=" + item.Id + ">" + item.Nombre + "</option>";
+        });
+    $("#sltperfil").html(items); 
+    });
+
+//Obtener el valor de los selecT
+    $("#slttipodocumentoidentidad").change(function() {
+        sltidtdi = $(this).children(":selected").attr("value");
+        
+    });
+
+    $("#sltarea").change(function() {
+        sltidarea= $(this).children(":selected").attr("value");
+      
+    });
+
+    $("#sltperfil").change(function() {
+        sltidperfil= $(this).children(":selected").attr("value");
+      
+    });
+
+
 </script>

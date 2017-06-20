@@ -68,6 +68,7 @@
 </div>
 </div>
 <div class="modal inmodal" id="modalArea" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Desde Aca es la ventana Modal-->
     <div class="modal-dialog">
         <div class="modal-content animated bounceInRight">
         <form id="frm-nuevoarea">
@@ -237,7 +238,7 @@
                     '<button class="btn btn-success btn-xs btn-space editar">'+
                         '<i class="fa fa-wrench"></i> Editar'+
                     '</button>' + 
-                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Auditoria.Id + ')">'+
+                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Auditoria.Id + ',' + data.Empresa.Ruc+ ')">'+
                         '<i class="fa fa-close"></i> Eliminar'+
                     '</button>';                      
                     }
@@ -263,7 +264,7 @@
         $("#txtNombre").val('');
         $("#txtDescripcion").val('');        
     }
-    function eliminar(IdArea, IdAuditoria){
+    function eliminar(IdArea, IdAuditoria,EmpresaRuc){
         bootbox.confirm({
             title: m_001,
             message: m_0067,
@@ -280,7 +281,8 @@
                     $.post("?c=Area&a=eliminar",
                     {
                         idarea: IdArea,
-                        idauditoria: IdAuditoria
+                        idauditoria: IdAuditoria,
+                        empresaruc: EmpresaRuc
 
                     }, function(data, status){
                         //alert("Data: " + data + "\nStatus: " + status);

@@ -11,7 +11,7 @@ class TipoDocumentoIdentidad implements JsonSerializable
     public function jsonSerialize() {
         return [
             'Id' => $this->Id,
-            'Nombre' => $this->MeNombrenu,
+            'Nombre' => $this->Nombre,
             'Estado' => $this->Estado
         ];
     }

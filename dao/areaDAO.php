@@ -2,6 +2,7 @@
 
 require_once 'model/area.php';
 require_once 'model/auditoria.php';
+require_once 'model/empresa.php';
 
 class AreaDAO
 {
@@ -209,6 +210,7 @@ class AreaDAO
 			$sQuery = "";
 
 			if(is_null($area->getId())){
+
 				$sQuery = "
 				        select 
 				        	rid_area, rv_msj_error 
@@ -222,7 +224,7 @@ class AreaDAO
 						$area->getEmpresa()->getRuc(),
 						$area->getNombre(), 
 						$area->getDescripcion(), 
-						$area->getAuditoria()->getId()
+						$area->getAuditoria()->getId()   
 						)
 					);
 
