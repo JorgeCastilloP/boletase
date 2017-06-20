@@ -64,27 +64,14 @@
                     <a href="?c=Root&a=Colaboradores">
                         <i class="fa fa-users"></i> 
                         <span class="nav-label">Colaboradores</span>
-                        <span class="label label-warning pull-right">NUEVO</span>
                     </a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Documentos</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li>
-                            <a href="?c=Root&a=Boletas">Boleta-(e)</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="nav-label">CTS</span>
-                                <span class="pull-right label label-primary">PRONTO</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="nav-label">Otros</span>
-                                <span class="pull-right label label-primary">PRONTO</span>
-                            </a>
-                        </li>
+                        <li><a href="?c=Root&a=Boletas">Boleta-(e)</a></li>
+                        <li><a href="#">CTS</a></li>
+                        <li><a href="#">Otros</a></li>
                     </ul>
                 </li>
                 <li>
@@ -93,35 +80,13 @@
                         <li>
                             <a href="#">Documentos<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="?c=Mantenimiento&a=Boletas">Boleta-(e)</a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="nav-label">CTS</span>
-                                        <span class="pull-right label label-primary">PRONTO</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="nav-label">Otros</span>
-                                        <span class="pull-right label label-primary">PRONTO</span>
-                                    </a>
-                                </li>
+                                <li><a href="?c=Mantenimiento&a=Boletas">Boleta-(e)</a></li>
+                                <li><a href="#">CTS</a></li>
+                                <li><a href="#">Otros</a></li>
                             </ul>                          
                         </li>
-                        <li>
-                            <a href="?c=Root&a=Perfiles">
-                                <span class="nav-label">Perfiles</span>
-                                <span class="pull-right label label-primary">PRONTO</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="?c=Root&a=Areas">
-                                <span class="nav-label">Grupos</span>
-                                <span class="pull-right label label-primary">PRONTO</span>
-                            </a>                            
-                        </li>
+                        <li><a href="?c=Root&a=Perfiles">Perfiles</a></li>
+                        <li><a href="?c=Root&a=Areas">Grupos</a></li>
                         <li><a href="?c=Mantenimiento&a=Usuarios">Usuarios</a></li>
                     </ul>
                 </li>
@@ -165,3 +130,13 @@
 
         </nav>
         </div>
+        <script>
+            $(document).ready(function() {        
+                $.getJSON("?c=Perfiltipodocumento&a=listar"/*, parameter*/, function (data) {
+                    $.each(data, function (i, item) {
+                        //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
+                        //$("#tipo_documento").append(addNodeChekBox('chkTipodocumento', item.Id, item.Descripcion, item.Estado));
+                    });
+                });
+            });
+        </script>

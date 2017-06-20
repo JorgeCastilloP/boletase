@@ -29,6 +29,9 @@ class PerfilsubmenuController{
 		}
 
 		echo json_encode($a_respuesta);	
-
 	}
+	public function listarSession(){
+		
+	}
+
 }
