@@ -23,7 +23,7 @@ class RootController{
 		}else{
 			$this->sess_empleado = unserialize($_SESSION["empleado"]);
 			$this->sess_lstarea = unserialize($_SESSION["lstarea"]);
-			$this->sess_lstsubmenu = unserialize($_SESSION["lstsubmenu"]);
+			$this->sess_lstmenu = unserialize($_SESSION["lstmenu"]);
 			$this->sess_lsttipodocumento = unserialize($_SESSION["lsttipodocumento"]);
 		}
 
@@ -40,10 +40,12 @@ class RootController{
 
 		$flag = Constants::FLAG_INCORRECTO;
 
-		foreach($this->sess_lstsubmenu as $submenu){
-   			if($submenu->getId() == Constants::COD_PAG_DOC_BOLETA){
-   				$flag = Constants::FLAG_CORRECTO;
-   			}
+		foreach($this->sess_lstmenu as $menu){
+			foreach ($menu->getListSubmenu() as $submenu) {
+				if($submenu->getId() == Constants::COD_PAG_COLABORADORES){
+					$flag = Constants::FLAG_CORRECTO;	
+				}
+			}
 		}
 
 		if ($flag == Constants::FLAG_CORRECTO) {
@@ -57,19 +59,19 @@ class RootController{
 			require_once 'view/footer.html';
 			echo $this->mensaje;
 		}
-
-
 	}	
 
 	public function Colaboradores(){
 
 		$flag = Constants::FLAG_INCORRECTO;
 
-		foreach($this->sess_lstsubmenu as $submenu){
-   			if($submenu->getId() == Constants::COD_PAG_COLABORADORES){
-   				$flag = Constants::FLAG_CORRECTO;
-   			}
-		}
+		foreach($this->sess_lstmenu as $menu){
+			foreach ($menu->getListSubmenu() as $submenu) {
+				if($submenu->getId() == Constants::COD_PAG_COLABORADORES){
+					$flag = Constants::FLAG_CORRECTO;	
+				}
+			}
+		}		
 
 		if ($flag == Constants::FLAG_CORRECTO) {
 
@@ -95,11 +97,13 @@ class RootController{
 
 		$flag = Constants::FLAG_INCORRECTO;
 
-		foreach($this->sess_lstsubmenu as $submenu){
-   			if($submenu->getId() == Constants::COD_PAG_MAN_PERFIL){
-   				$flag = Constants::FLAG_CORRECTO;
-   			}
-		}
+		foreach($this->sess_lstmenu as $menu){
+			foreach ($menu->getListSubmenu() as $submenu) {
+				if($submenu->getId() == Constants::COD_PAG_COLABORADORES){
+					$flag = Constants::FLAG_CORRECTO;	
+				}
+			}
+		}	
 
 		if ($flag == Constants::FLAG_CORRECTO) {
 
@@ -116,14 +120,16 @@ class RootController{
 	}
 
 	public function Usuarios(){
-		
+
 		$flag = Constants::FLAG_INCORRECTO;
 
-		foreach($this->sess_lstsubmenu as $submenu){
-   			if($submenu->getId() == Constants::COD_PAG_MAN_PERFIL){
-   				$flag = Constants::FLAG_CORRECTO;
-   			}
-		}
+		foreach($this->sess_lstmenu as $menu){
+			foreach ($menu->getListSubmenu() as $submenu) {
+				if($submenu->getId() == Constants::COD_PAG_COLABORADORES){
+					$flag = Constants::FLAG_CORRECTO;	
+				}
+			}
+		}	
 
 		if ($flag == Constants::FLAG_CORRECTO) {
 

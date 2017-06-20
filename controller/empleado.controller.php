@@ -43,7 +43,7 @@ class EmpleadoController{
 					array_push($a_respuesta, $menu);
 				}
 
-				$_SESSION["lstsubmenu"] = serialize($a_respuesta);
+				$_SESSION["lstmenu"] = serialize($a_respuesta);
 
 				//listando los tipos de documento
 				$ptdao = new PerfilTipoDocumentoDAO();
