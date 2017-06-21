@@ -87,7 +87,7 @@
                         </li>
                         <li><a href="?c=Root&a=Perfiles">Perfiles</a></li>
                         <li><a href="?c=Root&a=Areas">Grupos</a></li>
-                        <li><a href="?c=Mantenimiento&a=Usuarios">Usuarios</a></li>
+                        <li><a href="?c=Root&a=Usuarios">Usuarios</a></li>
                     </ul>
                 </li>
             </ul>
@@ -131,12 +131,14 @@
         </nav>
         </div>
         <script>
+        /*
             $(document).ready(function() {        
-                $.getJSON("?c=Perfiltipodocumento&a=listar"/*, parameter*/, function (data) {
+                $.getJSON("?c=Perfiltipodocumento&a=listar", parameter, function (data) {
                     $.each(data, function (i, item) {
-                        //addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
-                        //$("#tipo_documento").append(addNodeChekBox('chkTipodocumento', item.Id, item.Descripcion, item.Estado));
+                        addNode(item.Id, item.Icon, item.Descripcion, item.ArraySubmenu);
+                        $("#tipo_documento").append(addNodeChekBox('chkTipodocumento', item.Id, item.Descripcion, item.Estado));
                     });
                 });
             });
+        */
         </script>

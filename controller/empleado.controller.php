@@ -23,7 +23,7 @@ class EmpleadoController{
 
 	public function __CONSTRUCT(){
 		$this->dao = new EmpleadoDAO();
-		$this->sess_usuario=unserialize($_SESSION['empleado']);
+		//$this->sess_usuario=unserialize($_SESSION['empleado']);
 	}
 	public function Sesion(){
 		if(isset($_REQUEST["usuario"]) && isset($_REQUEST["password"])){

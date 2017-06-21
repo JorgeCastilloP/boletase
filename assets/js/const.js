@@ -104,3 +104,4 @@ var m_0063 = "Serie no se encuentra registrada";
 //Privilegios
 var m_0069 = "Insuficientes privilegios para acceder a este opción";
 var m_0070 = "";
+

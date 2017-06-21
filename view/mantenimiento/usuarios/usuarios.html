@@ -159,9 +159,6 @@
 <script>
     $(document).ready(function() {
 
-        var sltidarea;
-        var sltidperfil;
-        var stlidtdi;
         var tblUsuario = $('#tblUsuario').DataTable();
 
         tblUsuario = cargarTabla();
@@ -196,11 +193,6 @@
                         idarea: $("#hdnIdArea").val(),
                         idperfil: $("#hdnIdPerfil").val(),
                         idauditoria: $("#hdnIdAuditoria").val(),
-                        //ruc: $("#hdnRuc").val(),
-                        
-                        
-                        
-
 
                     }, function(data, status){
                         //alert("Data: " + data + "\nStatus: " + status);
@@ -253,18 +245,14 @@
             $("#txtApellido").val(row.data().Apellidos);
             $("#txtUsuario").val(row.data().Usuario);
             $("#txtNumeroDocumentoIdentiddad").val(row.data().NumeroDocumento);
-
+            /*
             $("#slttipodocumentoidentidad option").removeAttr("selected");
-           $("#sltarea option").removeAttr("selected");
+            $("#sltarea option").removeAttr("selected");
             $("#sltperfil option").removeAttr("selected");
-
-            //
-            $("#slttipodocumentoidentidad option[value= "+row.data().TipoDocumentoIdentidad+"]").attr("selected",true);
-            $("#sltarea option[value= "+row.data().Area.Id+"]").attr("selected",true);
-            $("#sltperfil option[value= "+row.data().Perfil.Id+"]").attr("selected",true);
-            
-
-
+            */
+            $("#slttipodocumentoidentidad").val(row.data().TipoDocumentoIdentidad);
+            $("#sltarea").val(row.data().Area.Id);
+            $("#sltperfil").val(row.data().Perfil.Id);
             
         });
 
@@ -349,14 +337,9 @@
         $("#txtApellido").val('');
         $("#txtUsuario").val('');
         $("#txtNumeroDocumentoIdentiddad").val('');
-
-        $("#slttipodocumentoidentidad option").removeAttr("selected");
-        $("#sltarea option").removeAttr("selected");
-        $("#sltperfil option").removeAttr("selected");
-
-        $("#slttipodocumentoidentidad option[value= "+0+"]").attr("selected",true);
-        $("#sltarea option[value= "+0+"]").attr("selected",true);
-        $("#sltperfil option[value= "+0+"]").attr("selected",true);
+        $("#slttipodocumentoidentidad").val(0);
+        $("#sltarea").val(0);
+        $("#sltperfil").val(0);        
 
     }
     function eliminar(IdEmpleado, IdAuditoria,EmpresaRuc,IdPerfil,IdArea){
@@ -419,8 +402,6 @@
         });        
     }
 
-
-
 //Cargar Tipo de Documento
       $.getJSON("?c=TipoDocumentoIdentidad&a=listar", 
     {
@@ -434,13 +415,10 @@
     $("#slttipodocumentoidentidad").html(items); 
     });
 
-
-
-
 //Cargar Areas
-          $.getJSON("?c=Area&a=Listarcbo", 
+    $.getJSON("?c=Area&a=Listarcbo", 
     {
-       
+
     },
     function (data) {
         var items = "<option value='0' id='0'>SELECCIONE..</option>";
@@ -449,9 +427,6 @@
         });
     $("#sltarea").html(items); 
     });
-
-
-
 
 //Cargar Perfiles
           $.getJSON("?c=Perfil&a=Listarcbo", 
@@ -465,22 +440,5 @@
         });
     $("#sltperfil").html(items); 
     });
-
-//Obtener el valor de los selecT
-    $("#slttipodocumentoidentidad").change(function() {
-        sltidtdi = $(this).children(":selected").attr("value");
-        
-    });
-
-    $("#sltarea").change(function() {
-        sltidarea= $(this).children(":selected").attr("value");
-      
-    });
-
-    $("#sltperfil").change(function() {
-        sltidperfil= $(this).children(":selected").attr("value");
-      
-    });
-
 
 </script>
