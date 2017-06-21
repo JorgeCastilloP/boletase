@@ -69,45 +69,56 @@ class EmpleadoDAO
 		try {
 
 			$sQuery = "";
+			$this->pdo->beginTransaction();
 
 			if(is_null($empleado->getId())){
 				$sQuery = "
 				        select 
-				        	rid_empleado, rv_msj_error 
+				        	rv_msj_error 
 				        from 
-				        	empleado_nuevo(?,?,?,?,?,?,?,?,?,?,?);
+				        	sp_empleado_nuevo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
 				    ";
 				$stm = $this->pdo->prepare($sQuery);
 
 				$stm->execute(
 					array(
 						$empleado->getNumeroDocumento(),
-						$empleado->getTipoDocumentoIdentidad(),
+						$empleado->getTipoDocumentoIdentidad()->getId(),
 						$empleado->getEmpresa()->getRuc(),
 						$empleado->getPerfil()->getId(),
 						$empleado->getArea()->getId(),
 						$empleado->getNombres(),
 						$empleado->getApellidos(),
 						$empleado->getUsuario(),
+						$empleado->getPassword(),
 						$empleado->getCorreo(),
 						$empleado->getTelefono(),
-						$empleado->getAuditoria()->getId()
+						$empleado->getAuditoria()->getUsucrea(),
+						$empleado->getAuditoria()->getIpcrea(),
+						$empleado->getAuditoria()->getPccrea(),
+						$empleado->getAuditoria()->getFechacrea()
 						)
 					);
 
 				$row = $stm->fetch();			
 
 				if($row){
-					$error = $row['rv_msj_error']==null?Constants::FLAG_CORRECTO:$row['rv_msj_error'];
-					$empleado->setId($row['rid_empleado']);
+
+					if($row['rv_msj_error'] == null){
+						$error = Constants::FLAG_CORRECTO;
+						$this->pdo->commit();
+					}else{
+						$error = $row['rv_msj_error'];
+						$this->pdo->rollBack();
+					}
 				}
 
 			}else{
 				$sQuery = "
 				         select 
-				        	rid_empleado, rv_msj_error 
+				        	rv_msj_error 
 				        from 
-				        	empleado_nuevo(?,?,?,?,?,?,?,?,?,?,?);
+				        	sp_empleado_editar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
 				    ";
 				 
 				$stm = $this->pdo->prepare($sQuery);
@@ -116,32 +127,45 @@ class EmpleadoDAO
 					array(
 						$empleado->getId(),
 						$empleado->getNumeroDocumento(),
-						$empleado->getTipoDocumentoIdentidad(),
+						$empleado->getTipoDocumentoIdentidad()->getId(),
 						$empleado->getEmpresa()->getRuc(),
 						$empleado->getPerfil()->getId(),
 						$empleado->getArea()->getId(),
+						$empleado->getNombres(),
+						$empleado->getApellidos(),
+						$empleado->getUsuario(),
+						$empleado->getPassword(),
 						$empleado->getCorreo(),
 						$empleado->getTelefono(),
 						$empleado->getEstado(),
-						$empleado->getAuditoria()->getId()
+						$empleado->getAuditoria()->getUsucrea(),
+						$empleado->getAuditoria()->getIpcrea(),
+						$empleado->getAuditoria()->getPccrea(),
+						$empleado->getAuditoria()->getFechacrea()
 						)
 					);								
 
 				$row = $stm->fetch();			
 
 				if($row){
-					$error = $row['rv_msj_error']==null?Constants::FLAG_CORRECTO:$row['rv_msj_error'];
-				}				
+					if($row['rv_msj_error'] == null){
+						$error = Constants::FLAG_CORRECTO;
+						$this->pdo->commit();
+					}else{
+						$error = $row['rv_msj_error'];
+						$this->pdo->rollBack();
+					}			
+				}			
 			}
 
 
 		} catch (Exception $e) {
-			$error_desc = $e->getMessage();				
+			$this->pdo->rollBack();
+			$error = $e->getMessage();				
 		}
 
 		return  array(
 					"modulo"=>$modulo,
-					"empleado"=>$empleado,
 	    			"error" => $error
 	    			);
 
@@ -247,6 +271,7 @@ class EmpleadoDAO
 
 	//
 	public function listarTabla(
+		$Ruc, 
 		$Estado, 
 		$iDisplayStart, $iDisplayLength, $sSearch, $sSortDir_0, $iSortCol_0){
 		try
@@ -255,20 +280,25 @@ class EmpleadoDAO
 
 			$sSelect = "
 			select 
-				e.id_empleado,e.nro_doc_emp,e.id_tipo_documento_identidad,e.ruc_empresa,e.id_perfil,e.id_area,e.nombres_emp,e.apellidos_emp,e.usuario_emp,e.correo_emp,e.telefono_emp,e.id_auditoria 
+				e.id_empleado, e.nro_doc_emp, e.nombres_emp, e.apellidos_emp, e.usuario_emp, e.correo_emp, e.telefono_emp, 
+				emp.ruc_empresa, emp.razon_social_empresa, emp.nombre_comercial_empresa, 
+				a.id_area, a.nombre_area, 
+				p.id_perfil, p.nombre_perfil, 
+				tdi.id_tipo_documento_identidad, tdi.nombre_tipo_documento_identidad, 
+				au.id_auditoria 				
 			from 
 				empleado e 
 			inner join 
-				empresa emp on e.ruc_empresa=emp.ruc_empresa";
-
-			/*"select 
-				a.id_area, a.nombre_area, a.desc_area, a.estado_area, 
-				e.ruc_empresa, e.razon_social_empresa, e.nombre_comercial_empresa,
-				a.id_auditoria 
-			from 
-				area a 
+				empresa emp on e.ruc_empresa=emp.ruc_empresa and (e.ruc_empresa = '".$Ruc."' or '".$Ruc."' = 'T') and (emp.estado_empresa  = '".$Estado."' or '".$Estado."' = 'T')
 			inner join 
-				empresa e on e.ruc_empresa =a.ruc_empresa ";*/
+				tipo_documento_identidad tdi on e.id_tipo_documento_identidad = tdi.id_tipo_documento_identidad 
+			inner join 
+				area a on e.id_area = a.id_area and (a.estado_area  = '".$Estado."' or '".$Estado."' = 'T')
+			inner join 
+				perfil p on e.id_perfil = p.id_perfil and (p.estado_perfil  = '".$Estado."' or '".$Estado."' = 'T') 
+			inner join 
+				auditoria au on e.id_auditoria = au.id_auditoria 
+				";
 
 			$sLimit = "";
 
@@ -278,16 +308,20 @@ class EmpleadoDAO
 				intval($iDisplayStart);
 			}
 
-			$sWhere = "where (e.estado_emp  = '".$Estado."' or '".$Estado."' = 'T') and (emp.estado_empresa  = '".$Estado."' or '".$Estado."' = 'T')";
+			$sWhere = "where (e.estado_emp  = '".$Estado."' or '".$Estado."' = 'T')";
 
 			if ( $sSearch != "" )
 		    {
 
 		        $sWhere .= "and ";
 	            $sWhere .= "(";
-	            $sWhere .= "e.nombres_emp ILIKE '%$sSearch%' OR ";
 	            $sWhere .= "e.apellidos_emp ILIKE '%$sSearch%' OR ";
+	            $sWhere .= "e.nombres_emp ILIKE '%$sSearch%' OR ";
+				$sWhere .= "e.usuario_emp ILIKE '%$sSearch%' OR ";				            
 	            $sWhere .= "e.correo_emp ILIKE '%$sSearch%' OR ";
+	            $sWhere .= "e.telefono_emp ILIKE '%$sSearch%' OR ";
+	            $sWhere .= "p.nombre_perfil ILIKE '%$sSearch%' OR ";
+	            $sWhere .= "a.nombre_area ILIKE '%$sSearch%' OR ";
 		        $sWhere = substr_replace( $sWhere, "", -3 );
 		       	$sWhere .= ")";
 
@@ -300,14 +334,26 @@ class EmpleadoDAO
 				$sOrder = "ORDER BY  ";		    
 
 				switch ($iSortCol_0) {
+				    case 1:
+						$sOrder .= "e.apellidos_emp".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";
+				        break;					
 				    case 2:
 						$sOrder .= "e.nombres_emp".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";
 				        break;
 				    case 3:
-						$sOrder .= "e.apellidos_emp".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";
-				        break;
-				    case 3:
-						$sOrder .= "e.correo_emp".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";						
+						$sOrder .= "e.usuario_emp".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";	
+						break;
+				    case 4:
+						$sOrder .= "e.correo_emp".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";	
+						break;
+				    case 5:
+						$sOrder .= "e.telefono".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";			
+						break;
+				    case 6:
+						$sOrder .= "p.nombre_perfil".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";	
+						break;
+				    case 7:
+						$sOrder .= "a.nombre_area".($sSortDir_0==='asc' ? 'asc' : 'desc').", ";			
 				        break;
 				}
 
@@ -326,7 +372,7 @@ class EmpleadoDAO
 		        $sLimit
 		    ";		
 	
-		
+			//echo $sQuery;
 
 			$stm = $this->pdo->prepare($sQuery);
 			$stm->execute();
@@ -335,63 +381,65 @@ class EmpleadoDAO
 			while($reg = $stm->fetch())
 			{
 
-
-
-				$Usuario = new Empleado();
-				$Usuario->setId($reg[0]);
-				$Usuario->setNumeroDocumento($reg[1]);
-				$Usuario->setTipoDocumentoIdentidad($reg[2]);
+				$empleado = new Empleado();
+				$empleado->setId($reg[0]);
+				$empleado->setNumeroDocumento($reg[1]);
+				$empleado->setNombres($reg[2]);
+				$empleado->setApellidos($reg[3]);
+				$empleado->setUsuario($reg[4]);
+				$empleado->setCorreo($reg[5]);
+				$empleado->setTelefono($reg[6]);
 
 				$empresa =new Empresa();
-				$empresa->setRuc($reg[3]);
+				$empresa->setRuc($reg[7]);
+				$empresa->setRazonSocial($reg[8]);
+				$empresa->setNombreComercial($reg[9]);
 
-				//$Usuario->setEmpresa($reg[3]);
-				//$Usuario->setPerfil($reg[4]);
+				$area=new Area();
+				$area->setId($reg[10]);
+				$area->setNombre($reg[11]);
 
 				$perfil=new Perfil();
-				$perfil->setId($reg[4]);
+				$perfil->setId($reg[12]);
+				$perfil->setNombre($reg[13]);
 
-				//$Usuario->setArea($reg[5]);
-				$area=new Area();
-				$area->setId($reg[5]);
-
-				$Usuario->setNombres($reg[6]);
-				$Usuario->setApellidos($reg[7]);
-				$Usuario->setUsuario($reg[8]);
-				$Usuario->setCorreo($reg[9]);
-				$Usuario->setTelefono($reg[10]);
-
-				$auditoria=new Auditoria();
-				$auditoria->setId($reg[11]);
-
-				$Usuario->setAuditoria($auditoria);
-				$Usuario->setEmpresa($empresa);
-				$Usuario->setPerfil($perfil);
-				$Usuario->setArea($area);
-				
-
-
-				/*$empresa = new Empresa();
-				$empresa->setRuc($reg[4]);
-				$empresa->setRazonSocial($reg[5]);
-				$empresa->setNombreComercial($reg[6]);
+				$tdi=new TipoDocumentoIdentidad();
+				$tdi->setId($reg[14]);
+				$tdi->setNombre($reg[15]);
 
 				$auditoria = new Auditoria();
-				$auditoria->setId($reg[7]);
+				$auditoria->setId($reg[16]);
 
-				$area->setEmpresa($empresa);
-				$area->setAuditoria($auditoria);*/
-
-				array_push($a_respuesta, $Usuario);
+				$empleado->setEmpresa($empresa);
+				$empleado->setPerfil($perfil);
+				$empleado->setArea($area);
+				$empleado->setTipoDocumentoIdentidad($tdi);
+				$empleado->setAuditoria($auditoria);
+				
+				array_push($a_respuesta, $empleado);
 			}
 
 			$sQuery = "
 			select 
-				e.id_empleado,e.nro_doc_emp,e.id_tipo_documento_identidad,e.ruc_empresa,e.id_perfil,e.id_area,e.nombres_emp,e.apellidos_emp,e.usuario_emp,e.correo_emp,e.telefono_emp 
+				e.id_empleado, e.nro_doc_emp, e.nombres_emp, e.apellidos_emp, e.usuario_emp, e.correo_emp, e.telefono_emp, 
+				emp.ruc_empresa, emp.razon_social_empresa, emp.nombre_comercial_empresa, 
+				a.id_area, a.nombre_area, 
+				p.id_perfil, p.nombre_perfil, 
+				tdi.id_tipo_documento_identidad, tdi.nombre_tipo_documento_identidad, 
+				au.id_auditoria 				
 			from 
 				empleado e 
 			inner join 
-				empresa emp on e.ruc_empresa=emp.ruc_empresa";
+				empresa emp on e.ruc_empresa=emp.ruc_empresa and (e.ruc_empresa = '".$Ruc."' or '".$Ruc."' = 'T') and (emp.estado_empresa  = '".$Estado."' or '".$Estado."' = 'T')
+			inner join 
+				tipo_documento_identidad tdi on e.id_tipo_documento_identidad = tdi.id_tipo_documento_identidad 
+			inner join 
+				area a on e.id_area = a.id_area and (a.estado_area  = '".$Estado."' or '".$Estado."' = 'T')
+			inner join 
+				perfil p on e.id_perfil = p.id_perfil and (p.estado_perfil  = '".$Estado."' or '".$Estado."' = 'T') 
+			inner join 
+				auditoria au on e.id_auditoria = au.id_auditoria 				
+				";
 			/*select 
 				a.id_area, a.nombre_area, a.desc_area, a.estado_area, 
 				e.ruc_empresa, e.razon_social_empresa, e.nombre_comercial_empresa,
@@ -410,7 +458,6 @@ class EmpleadoDAO
 			$tot = $stm->fetchAll(PDO::FETCH_OBJ);					
 
 			$result = array(
-		        //"sEcho" => intval($sEcho),
 		        "iTotalRecords" => count($tot),
 		        "iTotalDisplayRecords" => count($tot),
 		        "aaData" => $a_respuesta

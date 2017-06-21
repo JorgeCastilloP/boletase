@@ -12,11 +12,28 @@ class Empleado implements JsonSerializable
 	private $Nombres;
 	private $Apellidos;
 	private $Usuario;
+	private $Password;
 	private $Correo;
 	private $Telefono;
 	private $Estado;
 	private $Auditoria;
 
+ 	public function __CONSTRUCT() {
+ 		$this->Id = null;
+ 		$this->NumeroDocumento = null;
+ 		$this->TipoDocumentoIdentidad = new TipoDocumentoIdentidad();
+ 		$this->Empresa = new Empresa();
+ 		$this->Perfil = new Perfil();
+ 		$this->Area = new Area();
+ 		$this->Nombres = null;
+ 		$this->Apellidos = null;
+ 		$this->Usuario = null;
+ 		$this->Password = null;
+ 		$this->Correo = null;
+ 		$this->Telefono = null;
+ 		$this->Estado = null;
+ 		$this->Auditoria = new Auditoria();
+    }
 
     public function jsonSerialize() {
         return [
@@ -62,7 +79,10 @@ class Empleado implements JsonSerializable
 	}
 	public function getUsuario(){
 		return $this->Usuario;
-	}	
+	}
+	public function getPassword(){
+		return $this->Password;
+	}		
 	public function getCorreo(){
 		return $this->Correo;
 	}
@@ -102,7 +122,10 @@ class Empleado implements JsonSerializable
 	}
 	public function setUsuario($Usuario){
 		$this->Usuario = $Usuario;
-	}		
+	}
+	public function setPassword($Password){
+		$this->Password = $Password;
+	}
 	public function setCorreo($Correo){
 		$this->Correo = $Correo;
 	}

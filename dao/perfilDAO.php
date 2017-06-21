@@ -87,7 +87,7 @@ class PerfilDAO
 			from 
 				perfil p 
 			inner join 
-				empresa e on e.ruc_empresa = p.ruc_empresa and (e.ruc_empresa = '".$Ruc."' or '".$Ruc."' = 'T')";
+				empresa e on e.ruc_empresa = p.ruc_empresa and (e.ruc_empresa = '".$Ruc."' or '".$Ruc."' = 'T') and (e.estado_empresa  = '".$Estado."' or '".$Estado."' = 'T')";
 
 			$sLimit = "";
 
@@ -97,7 +97,7 @@ class PerfilDAO
 				intval($iDisplayStart);
 			}
 
-			$sWhere = "where (p.estado_perfil  = '".$Estado."' or '".$Estado."' = 'T') and (e.estado_empresa  = '".$Estado."' or '".$Estado."' = 'T')";
+			$sWhere = "where (p.estado_perfil  = '".$Estado."' or '".$Estado."' = 'T')";
 
 			if ( $sSearch != "" )
 		    {

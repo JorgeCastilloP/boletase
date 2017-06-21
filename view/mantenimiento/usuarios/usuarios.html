@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Usuarios</h2>
+        <h2>Colaboradores</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="index.html">Inicio</a>
@@ -9,7 +9,7 @@
                 <a>Mantenimiento</a>
             </li>
             <li class="active">
-                <strong>Usuarios</strong>
+                <strong>Colaboradores</strong>
             </li>
         </ol>
     </div>
@@ -25,7 +25,7 @@
                 Nuevo
             </button>
             <div class="ibox-title">
-                <h5>Listado de usuarios</h5>
+                <h5>Listado de Colaboradores</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -38,16 +38,21 @@
                     <table  id="tblUsuario" class="table table-striped table-bordered table-hover dataTables-example" >
                         <thead>
                             <tr>
+                                <th>Id</th>
+                                <th>Apellidos</th>
+                                <th>Nombres</th>
+                                <th>Usuario</th>
+                                <th>Correo</th>
+                                <th>Telefono</th>
+                                <th>Perfil</th>
+                                <th>Area</th>
+                                <th>Acciones</th>
+
+                                <th>IdAuditoria</th>
+                                <th>TipoDocumento</th>
+                                <th>NumeroDocumento</th>
                                 <th>IdArea</th>
                                 <th>IdPerfil</th>
-                                <th>Nombre</th>
-                                <th>IdAuditoria</th>
-                                <th>Apellidos</th>
-                                <th>Usuario</th>
-                                <th>Nombres</th>
-                                <th>Apellidos</th>
-                                <th>Usarios</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
                     </table>   
@@ -66,7 +71,7 @@
         <form id="frm-nuevoempleado">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Nuevo Usuario</h4>
+                <h4 class="modal-title">Nuevo Colaborador</h4>
                 <!--
                 <i class="fa fa-laptop modal-icon"></i>
                 <h4 class="modal-title">Modal title</h4>
@@ -111,7 +116,7 @@
                 </div>
                 <div class="form-group">
                     <label>Número de documento de identidad</label>
-                    <input id="txtNumeroDocumentoIdentiddad" name="txtNumeroDocumentoIdentiddad" type="text" class="form-control required" aria-required="true">                    
+                    <input id="txtNumeroDocumentoIdentidad" name="txtNumeroDocumentoIdentidad" type="text" class="form-control required" aria-required="true">                    
                 </div>
 
                 <div class="form-group">
@@ -183,22 +188,22 @@
                 submitHandler: function(form) {
                     $.post("?c=Empleado&a=guardar",
                     {
+                        idempleado: $("#hdnIdEmpleado").val(),
                         nombre: $("#txtNombre").val(),
                         apellido: $("#txtApellido").val(),
-                        idtdi: sltidtdi,
-                        nrodocumentoidentidad: $("#txtNumeroDocumentoIdentiddad").val(),
+                        idtdi: $("#slttipodocumentoidentidad").val(),
+                        nrodocumentoidentidad: $("#txtNumeroDocumentoIdentidad").val(),
                         correo: $("#txtCorreo").val(),
                         telefono: $("#txtTelefono").val(),
-                        usuario: $("txtUsuario").val(),
-                        idarea: $("#hdnIdArea").val(),
-                        idperfil: $("#hdnIdPerfil").val(),
-                        idauditoria: $("#hdnIdAuditoria").val(),
+                        usuario: $("#txtUsuario").val(),
+                        idarea: $("#sltarea").val(),
+                        idperfil: $("#sltperfil").val(),
+                        idauditoria: $("#hdnIdAuditoria").val()
 
                     }, function(data, status){
                         //alert("Data: " + data + "\nStatus: " + status);
                         $('#modalArea').modal('toggle');
 
-                        
                         var response = jQuery.parseJSON(data);
 
                         if(response.error == FLAG_CORRECTO){
@@ -219,16 +224,10 @@
                                 callback: function(){  }
                             });  
                         }
-
                         tblUsuario = cargarTabla();
                     });
                 }
         });
-
-        //listar los combos
-
-        //
-
 
         $('#tblUsuario tbody').on('click', 'td.link-control > .editar', function () {
 
@@ -238,19 +237,16 @@
 
             $("#hdnIdEmpleado").val(row.data().Id);
             $("#hdnIdAuditoria").val(row.data().Auditoria.Id);
-            $("#hdnIdArea").val(row.data().Area.Id);
-            $("#hdnIdPerfil").val(row.data().Perfil.Id);
-            //$("#hdnRuc").val(row.data().Empresa.Ruc);*/
+            //$("#hdnIdArea").val(row.data().Area.Id);
+            //$("#hdnIdPerfil").val(row.data().Perfil.Id);
+            $("#hdnRuc").val(row.data().Empresa.Ruc);
             $("#txtNombre").val(row.data().Nombres);
             $("#txtApellido").val(row.data().Apellidos);
             $("#txtUsuario").val(row.data().Usuario);
-            $("#txtNumeroDocumentoIdentiddad").val(row.data().NumeroDocumento);
-            /*
-            $("#slttipodocumentoidentidad option").removeAttr("selected");
-            $("#sltarea option").removeAttr("selected");
-            $("#sltperfil option").removeAttr("selected");
-            */
-            $("#slttipodocumentoidentidad").val(row.data().TipoDocumentoIdentidad);
+            $("#txtCorreo").val(row.data().Correo);
+            $("#txtTelefono").val(row.data().Telefono);
+            $("#txtNumeroDocumentoIdentidad").val(row.data().NumeroDocumento);
+            $("#slttipodocumentoidentidad").val(row.data().TipoDocumentoIdentidad.Id);
             $("#sltarea").val(row.data().Area.Id);
             $("#sltperfil").val(row.data().Perfil.Id);
             
@@ -272,7 +268,7 @@
             "ajax": {
                 "type": "POST", 
                 //"contentType": "application/json; charset=utf-8",        
-                "url": '?c=Empleado&a=listar',
+                "url": '?c=Empleado&a=listarTabla',
                 /*
                 "data": function ( d ){
                     d.RowsDeleted = rows_deleted;
@@ -286,12 +282,12 @@
             },
             'columnDefs': [
                 {
-                    "targets": [ 0, 1, 2, 3,4,5],
+                    "targets": [ 0, 9, 10, 11, 12, 13],
                     "visible": false,
                     "searchable": false
                 },
                 {
-                    "targets": [9],
+                    "targets": [8],
                     "searchable": false, 
                     "orderable": false,
                     "className": 'link-control',
@@ -301,7 +297,7 @@
                     '<button class="btn btn-success btn-xs btn-space editar">'+
                         '<i class="fa fa-wrench"></i> Editar'+
                     '</button>' + 
-                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Auditoria.Id + ',' + data.Empresa.Ruc+ ','+ data.Perfil.Id + ',' + data.Area.Id+')">'+
+                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ')">'+
                         '<i class="fa fa-close"></i> Eliminar'+
                     '</button>';                      
                     }
@@ -309,18 +305,21 @@
             ],
      
             "columns": [
-                        { "data": 'Area.Id'},
-                        { "data": 'Perfil.Id'},
                         { "data": 'Id'},
-                        { "data": 'Auditoria.Id'},              
-                        { "data": 'NumeroDocumento'},
-                        { "data": 'TipoDocumentoIdentidad'},
-                        { "data": 'Nombres'},
                         { "data": 'Apellidos'},
+                        { "data": 'Nombres'},
                         { "data": 'Usuario'},
+                        { "data": 'Correo'},
+                        { "data": 'Telefono'},
+                        { "data": 'Perfil.Nombre'},
+                        { "data": 'Area.Nombre'},
                         { "data": null},
+                        { "data": 'Auditoria.Id'},              
+                        { "data": 'TipoDocumentoIdentidad.Id'},                          
+                        { "data": 'NumeroDocumento'},
+                        { "data": 'Area.Id'},
+                        { "data": 'Perfil.Id'}
             ]
-            
         });    
 
         return table;        
@@ -330,19 +329,19 @@
 
         $("#hdnIdEmpleado").val('');
         $("#hdnIdAuditoria").val('');
-       // $("#hdnRuc").val('');
-        $("#txtNombre").val('');
-        $("#txtDescripcion").val('');
+        $("#hdnRuc").val('');
         $("#txtNombre").val('');
         $("#txtApellido").val('');
-        $("#txtUsuario").val('');
-        $("#txtNumeroDocumentoIdentiddad").val('');
         $("#slttipodocumentoidentidad").val(0);
+        $("#txtNumeroDocumentoIdentidad").val('');
+        $("#txtCorreo").val('');
+        $("#txtTelefono").val('');
+        $("#txtUsuario").val('');
         $("#sltarea").val(0);
         $("#sltperfil").val(0);        
 
     }
-    function eliminar(IdEmpleado, IdAuditoria,EmpresaRuc,IdPerfil,IdArea){
+    function eliminar(IdEmpleado){
         bootbox.confirm({
             title: m_001,
             message: m_0067,
@@ -358,11 +357,7 @@
                 if(result){
                     $.post("?c=Empleado&a=eliminar",
                     {
-                        idempleado: IdEmpleado,
-                        idauditoria: IdAuditoria,
-                        empresaruc: EmpresaRuc,
-                        idperfil:IdPerfil,
-                        idarea:IdArea
+                        idempleado: IdEmpleado
 
                     }, function(data, status){
                         //alert("Data: " + data + "\nStatus: " + status);

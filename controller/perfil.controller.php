@@ -127,7 +127,7 @@ class PerfilController{
 		$perfil->setListArea($lstArea);
 		$perfil->setListTipoDocumento($lstTipoDocumento);
 
-		$response = $this->dao->guardar($perfil);		
+		$response = $this->dao->guardar($perfil);	
 
 
 		echo json_encode($response);

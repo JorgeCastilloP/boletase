@@ -9,7 +9,15 @@ class TipoDocumento implements JsonSerializable
 	private $Estado;
 	private $Auditoria;
 
-
+	/*
+ 	public function __CONSTRUCT() {
+ 		$this->Id = null;
+ 		$this->Empresa = new Empresa();
+ 		$this->Descripcion = null;
+ 		$this->Estado = null;
+ 		$this->Auditoria = new Auditoria();
+    }
+	*/
     public function jsonSerialize() {
         return [
             'Id' => $this->Id,
@@ -19,6 +27,7 @@ class TipoDocumento implements JsonSerializable
             'Auditoria' => $this->Auditoria
         ];
     }
+
 
 	public function getId(){
 		return $this->Id;
