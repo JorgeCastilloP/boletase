@@ -159,7 +159,7 @@ class AreaController{
 	public function listarcbo()
 	{
 		$Estado = 'A';
-		$ruc='20100011884';
+		$ruc=$this->sess_usuario->getEmpresa()->getRuc();
 		$reg=$this->dao->listar($ruc,$Estado);
 
 		echo json_encode($reg);

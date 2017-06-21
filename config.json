@@ -28,7 +28,7 @@
     "mail_from": "ebilling@e-billing.com.ec",
     "mail_from_alias": "e-billingpe",
     
-    "database_host": "localhost",
+    "database_host": "192.168.1.12",
     "database_port": "5432",
     "database_name": "BOLETAE",
     "database_user": "sigecodeveloper",
