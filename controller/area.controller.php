@@ -48,7 +48,7 @@ class AreaController{
 		echo json_encode($response);
 	}
 	public function listar(){
-		$Ruc = $this->sess_usuario->getEmpresa()->getRuc();;
+		$Ruc = $this->sess_usuario->getEmpresa()->getRuc();
 		$Estado = 'A';
 		echo json_encode($this->dao->listar($Ruc,$Estado));		
 	}	

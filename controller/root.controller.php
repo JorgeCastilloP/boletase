@@ -61,6 +61,7 @@ class RootController{
 		}
 	}	
 
+
 	public function Colaboradores(){
 
 		$flag = Constants::FLAG_INCORRECTO;
@@ -143,6 +144,32 @@ class RootController{
 			echo $this->mensaje;
 		}		
 
+	}	
+
+
+	public function MBoletas(){
+
+		$flag = Constants::FLAG_INCORRECTO;
+
+		foreach($this->sess_lstmenu as $menu){
+			foreach ($menu->getListSubmenu() as $submenu) {
+				if($submenu->getId() == Constants::COD_PAG_COLABORADORES){
+					$flag = Constants::FLAG_CORRECTO;	
+				}
+			}
+		}
+
+		if ($flag == Constants::FLAG_CORRECTO) {
+
+			require_once 'view/header.html';
+			require_once 'view/mantenimiento/documentos/boletas/boletas.html';
+			require_once 'view/footer.html';		
+
+		}else{
+			require_once 'view/header.html';
+			require_once 'view/footer.html';
+			echo $this->mensaje;
+		}
 	}			
 
 	public function MBoletas(){

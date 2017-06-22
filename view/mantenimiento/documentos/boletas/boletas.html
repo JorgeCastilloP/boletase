@@ -46,45 +46,18 @@
             </div>
             <div class="ibox-content">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+                    <table id="tblBoleta" class=table table-striped table-bordered table-hover dataTables-example" >
                         <thead>
-                        <tr>
-                            <th>Periodo</th>
-                            <th>Usuario</th>
-                            <th>Departamento</th>
-                            <th>Publicado</th>
-                            <th>Visto</th>
-                            <th>Ver</th>
-                        </tr>
-                        </thead>
-                        <tbody>
                             <tr>
-                                <td class="center">Abril</td>
-                                <td>Joel Silva</td>
-                                <td>Contabilidad</td>
-                                <td class="center">2017-05-10</td>
-                                <td class="center">2017-05-10</td>
-                                <td class="center"></td>
-                            </tr>
-                            <tr>
-                                <td class="center">Abril</td>
-                                <td>Rooney Lindsay</td>
-                                <td>Calidad</td>
-                                <td class="center">2017-05-10</td>
-                                <td class="center">2017-05-10</td>
-                                <td class="center"></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>Periodo</th>
-                            <th>Usuario</th>
-                            <th>Departamento</th>
-                            <th>Publicado</th>
-                            <th>Visto</th>
-                            <th>Ver</th>
-                        </tr>
-                        </tfoot>                        
+                                <th>Periodo</th>
+                                <th>Usuario</th>
+                                <th>Departamento</th>
+                                <th>Publicado</th>
+                                <th>Visto</th>
+                                <th>Ver</th>
+                                <th>Acción</th>
+                            </tr>  
+                        </thead>           
                     </table>   
                 </div>
             </div>
@@ -93,12 +66,83 @@
 </div>
 </div>
 
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/plugins/validate/jquery.validate.min.js"></script>
+
 <script>
     $(document).ready(function(){
-        $('.dataTables-example').DataTable({
+
+
+        var tblBoleta = $("#tblBoleta").DataTable();
+
+        tblBoleta = cargarTabla();
+
+        /*$('.dataTables-example').DataTable({
             pageLength: 25,
             responsive: true
+        });*/
+
+        function cargarTabla(){
+
+            var table = $('#tblBoleta').DataTable({
+                "bFilter": true,
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": true,
+                "ajax":{
+                    "type":"POST",
+                    "url": '?c=Documentos&a=listarTablaBoleta',
+
+                    "error": function(xhr,status,error){
+                        console.log(xhr.responseText);
+                        console.log(xhr);
+                    }
+
+                },
+            }
+            'columDefs':[
+                {
+                    "targets":[ 0, 1, 2],
+                    "visible": false,
+                    "searchable": false,
+                },
+                {   
+                    "targets":[6],
+                    "searchable":false,
+                    "orderable":false,
+                    "className": 'link-control',
+                    "render": function(data,type,full,meta){
+
+                    return '' +
+
+                    '<button class="btn btn-succes btn-xs btn-space editar">'+
+                        '<i class="fa fa-wrench"></i> Editar' +
+                    '</button>'+
+
+                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Empresa.Ruc + ',' + data.Empresa.Ruc+ ')">'+
+                        '<i class="fa fa-close"></i> Dar Baja'+
+                    '</button>'; 
+
+                    }
+                }
+            ],
+            "columns":[
+
+                    { "data": 'Id'},
+                    { "data": 'Empleado.Nombres' },
+                    { "data": 'Empleado.Apellidos' },
+                    { "data": 'Empresa.Ruc'},
+                    { "data": 'Empresa.NombreComercial'},
+                    { "data": 'Empresa.RazonSocial'},
+                    { "data": null},
+            ];
+            
+
         });
+
+        return table;
+    }
+
 
     });
 
