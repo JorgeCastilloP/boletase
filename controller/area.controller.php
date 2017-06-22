@@ -139,21 +139,6 @@ class AreaController{
 
 		echo json_encode($response);
 
-		/*
-		$nombre  = $_POST["nombre"];
-		$descripcion  = $_POST["descripcion"];
-		$ruc = $_POST["ruc"];		
-		$idperfil = $_POST["idperfil"];
-		$idauditoria = $_POST["idauditoria"];
-		echo json_encode(
-			array(
-				"nombre"=>$nombre,
-				"descripcion"=>$descripcion,
-				"ruc"=>$ruc,
-				"idperfil"=>$idperfil,
-				"idauditoria"=>$idauditoria
-				));
-		*/	
 	}
 
 	public function listarcbo()

@@ -256,7 +256,7 @@ class PerfilDAO
 				        select 
 				        	rv_msj_error 
 				        from 
-				        	sp_perfil_editar(?,?,?,?,?,?,?,?,?,?,?);
+				        	sp_perfil_editar(?,?,?,?,?,?,?,?,?,?,?,?);
 				    ";
 				$stm = $this->pdo->prepare($sQuery);
 
@@ -266,6 +266,7 @@ class PerfilDAO
 						$perfil->getEmpresa()->getRuc(),
 						$perfil->getNombre(), 
 						$perfil->getDescripcion(), 
+						$perfil->getEstado(), 
 						$perfil->getAuditoria()->getUsucrea(),
 						$perfil->getAuditoria()->getIpcrea(),
 						$perfil->getAuditoria()->getPccrea(),

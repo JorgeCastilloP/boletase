@@ -31,8 +31,8 @@ class EmpleadoDAO
 			$Estado='A';
 			$sQuery= "
 			select 
-				id_tipo_documento_identidad,
-				nombre_tipo_documento_identidad,
+				id_tipo_documento_identidad, 
+				nombre_tipo_documento_identidad, 
 				estado_tipo_documento_identidad 
 			from 
 				tipo_documento_identidad 
@@ -118,7 +118,7 @@ class EmpleadoDAO
 				         select 
 				        	rv_msj_error 
 				        from 
-				        	sp_empleado_editar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+				        	sp_empleado_editar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?s);
 				    ";
 				 
 				$stm = $this->pdo->prepare($sQuery);

@@ -1,12 +1,11 @@
 <?php
 
 require_once 'model/perfil.php';
-require_once 'model/area.php';
 require_once 'model/empresa.php';
 require_once 'model/empleado.php';
 
 require_once 'dao/perfilDAO.php';
-require_once 'dao/auditoriaDAO.php';
+
 
 class PerfilController{
 
@@ -23,24 +22,16 @@ class PerfilController{
 		$response = '';
 
 		$idPerfil  = $_POST["idperfil"];
-		$idAuditoria  = $_POST["idauditoria"];
+		$perfil = new Perfil();
 
 		$auditoria = new Auditoria();
 		$auditoria = Constants::getAuditoria($auditoria);
-		$auditoria->setId($idAuditoria);
-		$auditoriadao = new AuditoriaDAO();
-		$response = $auditoriadao->guardar($auditoria);
 
-
-		$perfil = new Perfil();
 		$perfil->setId($idPerfil);
+		$perfil->setAuditoria($auditoria);
 		$perfil->setEstado('I');
-
-		if($response["error"] == Constants::FLAG_CORRECTO){
-			$perfil->setAuditoria($response["auditoria"]);
-			$response = $this->dao->guardar($perfil);
-		}			
-		echo json_encode($response);
+			
+		echo json_encode($this->dao->guardar($perfil));
 	}
 	public function listarTabla(){
 
@@ -131,35 +122,13 @@ class PerfilController{
 
 
 		echo json_encode($response);
-/*
-
-		$nombre  = $_POST["nombre"];
-		$descripcion  = $_POST["descripcion"];
-		$ruc = $_POST["ruc"];		
-		$idperfil = $_POST["idperfil"];
-		$idauditoria = $_POST["idauditoria"];
-		$submenu = $_POST["submenu"];
-		$tipodocumento = $_POST["tipodocumento"];
-		$areas = $_POST["areas"];
-		echo json_encode(
-			array(
-				"nombre"=>$nombre,
-				"descripcion"=>$descripcion,
-				"ruc"=>$ruc,
-				"idperfil"=>$idperfil,
-				"idauditoria"=>$idauditoria,
-				"submenu"=>$submenu,
-				"tipodocumento"=>$tipodocumento,
-				"areas"=>$areas
-				));
-*/
 	}
 
 	public function listarcbo(){
 
 		$Estado= 'A';
-		$ruc='20100011884';
-		$reg=$this->dao->listar($ruc,$Estado);
+		$ruc = $this->sess_usuario->getEmpresa()->getRuc();
+		$reg = $this->dao->listar($ruc,$Estado);
 
 		echo json_encode($reg);
 	
