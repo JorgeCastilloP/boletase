@@ -1,4 +1,8 @@
 <?php
+require_once 'model/tipodocumentoidentidad.php';
+require_once 'model/perfil.php';
+require_once 'model/area.php';
+require_once 'model/empresa.php';
 
 class Empleado implements JsonSerializable
 {

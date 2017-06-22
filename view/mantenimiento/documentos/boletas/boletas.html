@@ -46,15 +46,16 @@
             </div>
             <div class="ibox-content">
                 <div class="table-responsive">
-                    <table id="tblBoleta" class=table table-striped table-bordered table-hover dataTables-example" >
+                    <table id="tblBoleta" class="table table-striped table-bordered table-hover dataTables-example" >
                         <thead>
                             <tr>
-                                <th>Periodo</th>
-                                <th>Usuario</th>
-                                <th>Departamento</th>
-                                <th>Publicado</th>
-                                <th>Visto</th>
-                                <th>Ver</th>
+                                <th>Codigo</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Area</th>
+                                <th>RUC</th>
+                                <th>Nombre comercial</th>
+                                <th>Razón Social</th>
                                 <th>Acción</th>
                             </tr>  
                         </thead>           
@@ -64,6 +65,56 @@
         </div>
     </div>
 </div>
+</div>
+
+<div class="modal inmodal" id="modalArea" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Desde Aca es la ventana Modal-->
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+        <form id="frm-nuevoarea">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Nuevo Grupo</h4>
+                <!--
+                <i class="fa fa-laptop modal-icon"></i>
+                <h4 class="modal-title">Modal title</h4>
+                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                -->
+            </div>
+            <div class="modal-body">
+            <!--
+                <p>
+                    <strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                    printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                    remaining essentially unchanged.
+                </p>
+                
+                <div class="form-group">
+                    <label>Sample Input</label>
+                    <input type="email" placeholder="Enter your email" class="form-control">
+                </div>
+                -->
+                <div class="form-group">
+                    <input id="hdnIdArea" name="hdnIdArea" type="hidden">
+                    <input id="hdnIdAuditoria" name="hdnIdAuditoria" type="hidden">
+                    <input id="hdnRuc" name="hdnRuc" type="hidden">
+                </div>                
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input id="txtNombre" name="txtNombre" type="text" class="form-control required" aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <input id="txtDescripcion" name="txtDescripcion" type="text" class="form-control required" aria-required="true">                    
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
@@ -77,11 +128,22 @@
 
         tblBoleta = cargarTabla();
 
+
         /*$('.dataTables-example').DataTable({
             pageLength: 25,
             responsive: true
         });*/
+            $('#tblBoleta tbody').on('click','td.link-control > .editar',function(){
 
+
+            $('#modalArea').modal('show');
+            var tr = $(this).closest('tr');
+            var row = tblBoleta.row(tr);
+
+           
+
+            });
+        });
         function cargarTabla(){
 
             var table = $('#tblBoleta').DataTable({
@@ -91,59 +153,114 @@
                 "bServerSide": true,
                 "ajax":{
                     "type":"POST",
-                    "url": '?c=Documentos&a=listarTablaBoleta',
+                    "url": '?c=Documento&a=listarTablaBoleta',
 
-                    "error": function(xhr,status,error){
+                   "error": function(xhr,status,error) {
                         console.log(xhr.responseText);
                         console.log(xhr);
                     }
 
                 },
-            }
-            'columDefs':[
-                {
-                    "targets":[ 0, 1, 2],
-                    "visible": false,
-                    "searchable": false,
-                },
-                {   
-                    "targets":[6],
-                    "searchable":false,
-                    "orderable":false,
-                    "className": 'link-control',
-                    "render": function(data,type,full,meta){
+                'columnDefs':[
+                    {
+                        "targets": [ 0,],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {   
+                        "targets":[7],
+                        "searchable":false,
+                        "orderable":false,
+                        "className": 'link-control',
+                        "render": function(data,type,full,meta){
 
-                    return '' +
+                        return '' +
 
-                    '<button class="btn btn-succes btn-xs btn-space editar">'+
-                        '<i class="fa fa-wrench"></i> Editar' +
-                    '</button>'+
+                        '<button class="btn btn-success btn-xs btn-space editar">'+
+                            '<i class="fa fa-wrench"></i> Editar'+
+                        '</button>'+
 
-                    '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Empresa.Ruc + ',' + data.Empresa.Ruc+ ')">'+
-                        '<i class="fa fa-close"></i> Dar Baja'+
-                    '</button>'; 
+                        '<button class="btn btn-danger btn-xs btn-space" onClick="eliminar(' + data.Id + ',' + data.Empresa.Ruc + ',' + data.Empresa.Ruc+ ')">'+
+                            '<i class="fa fa-close"></i> Dar Baja'+
+                        '</button>'; 
 
+                        }
                     }
-                }
-            ],
-            "columns":[
+                ],
+                "columns":[
 
-                    { "data": 'Id'},
-                    { "data": 'Empleado.Nombres' },
-                    { "data": 'Empleado.Apellidos' },
-                    { "data": 'Empresa.Ruc'},
-                    { "data": 'Empresa.NombreComercial'},
-                    { "data": 'Empresa.RazonSocial'},
-                    { "data": null},
-            ];
-            
+                        { "data": 'Id'},
+                        { "data": 'Empleado.Nombres'},
+                        { "data": 'Empleado.Apellidos'},
+                        { "data": 'Area.Nombre'},
+                        { "data": 'Empresa.Ruc'},
+                        { "data": 'Empresa.NombreComercial'},
+                        { "data": 'Empresa.RazonSocial'},
+                        { "data":  null},
+                ],
+                
 
         });
 
         return table;
     }
 
+    function eliminar(IdArea, IdAuditoria,EmpresaRuc){
+        bootbox.confirm({
+            title: m_001,
+            message: m_0067,
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    $.post("?c=Area&a=eliminar",
+                    {
+                        idarea: IdArea,
+                        idauditoria: IdAuditoria,
+                        empresaruc: EmpresaRuc
 
-    });
+                    }, function(data, status){
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        var response = jQuery.parseJSON(data);
+
+                        if(response.error == FLAG_CORRECTO){
+                            //alert("correcto");
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0064,
+                                size: 'small',
+                                className: 'animated bounceInRight',
+                                callback: function(){ /* your callback code */ }
+                            });
+                        }else{
+                            bootbox.alert({
+                                title: m_001,
+                                message: m_0058 + ': ' + response.error,
+                                size: 'small',                                
+                                className: 'animated wobble',
+                                callback: function(){ /* your callback code */ }
+                            });  
+                        }
+
+                        tblArea = cargarTabla();
+                    });
+                }else{
+                    bootbox.alert({
+                        title: m_001,
+                        message: m_0068,
+                        size: 'small',
+                        className: 'animated bounceInRight',
+                        callback: function(){ /* your callback code */ }
+                    });
+                }
+            }
+        });        
+    }
 
 </script>

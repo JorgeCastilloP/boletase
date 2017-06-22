@@ -1,9 +1,14 @@
 <?php
 
 require_once 'model/documento.php';
+require_once 'model/area.php';
+require_once 'model/tipodocumento.php';
+require_once 'model/empresa.php';
+require_once 'model/empleado.php';
 
 class DocumentoDAO
 {
+
 	private $pdo;
 
 	public function __CONSTRUCT()
@@ -17,6 +22,7 @@ class DocumentoDAO
 			die($e->getMessage());
 		}
 	}
+	
 	public function listarDocumentosBoletas(
 			$RucEmpresa, $RazonSocial, $NombreComercial, 
 			$TipoDocumentoIdentidad, 
@@ -216,7 +222,7 @@ class DocumentoDAO
 		        "aaData" => $a_respuesta
     		);
     		return $result;				
-
+    		//echo $result;	
 		}
 		catch(Exception $e)
 		{
@@ -311,7 +317,7 @@ class DocumentoDAO
 
 
 
-	public function listarDocumentos(
+	public function listarTablaDocumentos(
 		$Estado,
 		$Rucempresa,
 		$TipoDocumento,
@@ -325,7 +331,7 @@ class DocumentoDAO
 				d.id_documento, 
 				e.ruc_empresa, e.razon_social_empresa, e.nombre_comercial_empresa, 
 				tdi.nombre_tipo_documento_identidad, 
-				em.apellidos_emp, em.nombres_emp, 
+				em.nombres_emp, em.apellidos_emp,
 				td.desc_tipo_documento, 
 				a.nombre_area, 
 				d.fecha_documento, d.ruta_almacenamiento, d.fecha_incorporacion, d.fecha_visualizacion, d.fecha_baja, d.id_erp, 
@@ -360,7 +366,7 @@ class DocumentoDAO
 			if(!is_null($TipoDocumento))
 				$sWhere .= "and td.id_tipo_documento = ".$TipoDocumento." ";
 
-
+				//$sWhere .= "and td.id_tipo_documento =1 ";
 
 			if ( $sSearch != "" )
 		    {
@@ -420,15 +426,20 @@ class DocumentoDAO
 
 		    $sQuery = "
 		        $sSelect
+		        
+		        
+		    ";	
+		        $sQuery = "
+		        $sSelect
 		        $sWhere
 		        $sOrder
 		        $sLimit
-		    ";	
+		    ";
 
-		    $stm = $this->pdo->prepare($sQuery);
+		   $stm = $this->pdo->prepare($sQuery);
 			$stm->execute();
 			$a_respuesta = array();
-			//$reg = $stm->fetchAll(PDO::FETCH_OBJ);
+			
 			while($reg = $stm->fetch())
 			{
 				$documento = new Documento();
@@ -444,7 +455,7 @@ class DocumentoDAO
 				$empleado = new Empleado();
 				$tdi = new TipoDocumentoIdentidad();
 				$tdi->setNombre($reg[4]);
-				$empleado->setNombres($reg[5]);
+				$empleado->setNombres($reg[5].', ' .$reg[6]);
 				$empleado->setApellidos($reg[6]);
 				$empleado->setTipoDocumentoIdentidad($tdi);
 
@@ -455,6 +466,7 @@ class DocumentoDAO
 
 				$area = new Area();
 				$area->setNombre($reg[8]);
+				$documento->setArea($area);
 
 				$documento->setFechaDocumento($reg[9]);
 				$documento->setRutaAlmacenamiento($reg[10]);
@@ -506,10 +518,12 @@ class DocumentoDAO
 		        "iTotalDisplayRecords" => count($tot),
 		        "aaData" => $a_respuesta
     		);
+    		
     		return $result;	
 
 		}
-		catch(Exception $e){
+		catch(Exception $e)
+		{
 			die($e->getMessage());
 		}
 

@@ -172,7 +172,7 @@ class RootController{
 		}
 	}			
 
-	public function MBoletas(){
+	/*public function MBoletas(){
 
 		$flag = Constants::FLAG_INCORRECTO;
 
@@ -196,6 +196,6 @@ class RootController{
 			echo $this->mensaje;
 		}		
 
-	}	
+	}	*/
 }
 

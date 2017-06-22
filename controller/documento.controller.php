@@ -6,14 +6,14 @@ require_once 'model/empresa.php';
 require_once 'dao/documentoDAO.php';
 require_once 'dao/auditoriaDAO.php';
 
-class DocumentosController{
+class DocumentoController{
 
 	private $dao;
 	private $sess_usuario;
 
 
-	public function __CONTRUCT(){
-		$this->dao = new DocumentoDAO;
+	public function __CONSTRUCT(){
+		$this->dao = new DocumentoDAO();
 		$this->sess_usuario = unserialize($_SESSION['empleado']);
 
 	}
@@ -54,15 +54,19 @@ class DocumentosController{
 			$iSortCol_0 = $orden[0]['column'];
 		}
 
-		$Estado = 'A';
-		$Ruc=$this->sess_usuario->getEmpresa()->getRuc();
-		$TipoDocumento='1'
-		$reg= $this->dao->listarTabla(
+		$Estado = $this->sess_usuario->getEstado();
+		$Ruc  =	$this->sess_usuario->getEmpresa()->getRuc();
+		$TipoDocumento=1;
+		$reg=$this->dao->listarTablaDocumentos(
 				$Estado,$Ruc,$TipoDocumento,
 				$iDisplayStart,$iDisplayLength,
 				$sSearch,
 				$sSortDir_0, $iSortCol_0);
+
 		echo  json_encode($reg);
+
+
+		
 	}
 
 
