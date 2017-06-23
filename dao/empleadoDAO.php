@@ -22,7 +22,7 @@ class EmpleadoDAO
 			die($e->getMessage());
 		}
 	}
-
+	/*
 	public function listar(){
 
 		try
@@ -61,6 +61,7 @@ class EmpleadoDAO
 		}
 		return $a_respuesta;
 	}
+	*/
 	public function guardar($empleado){
 		
 		$modulo="empleadoDAO";
@@ -268,8 +269,6 @@ class EmpleadoDAO
 	    			"error" => $error
 	    			);			
 	}
-
-	//
 	public function listarTabla(
 		$Ruc, 
 		$Estado, 

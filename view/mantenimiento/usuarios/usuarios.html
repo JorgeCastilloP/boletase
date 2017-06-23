@@ -254,9 +254,49 @@
 
         $('#modalArea').on('hidden.bs.modal', function () {
             limpiar();
-        })
+        });
 
-    } );
+
+    //Cargar Tipo de Documento
+        $.getJSON("?c=TipoDocumentoIdentidad&a=listar", 
+        {
+           
+        },
+        function (data) {
+            var items = "<option value='0' id='0'>SELECCIONE..</option>";
+            $.each(data, function (i, item) {
+               items +="<option value=" + item.Id + " id='"+ item.Id + "'" +">" + item.Nombre + "</option>";
+            });
+        $("#slttipodocumentoidentidad").html(items); 
+        });
+
+    //Cargar Areas
+        $.getJSON("?c=Area&a=Listarcbo", 
+        {
+
+        },
+        function (data) {
+            var items = "<option value='0' id='0'>SELECCIONE..</option>";
+            $.each(data, function (i, item) {
+               items +="<option value=" + item.Id + ">" + item.Nombre + "</option>";
+            });
+        $("#sltarea").html(items); 
+        });
+
+    //Cargar Perfiles
+        $.getJSON("?c=Perfil&a=Listarcbo", 
+        {
+           
+        },
+        function (data) {
+            var items = "<option value='0' id='0'>SELECCIONE..</option>";
+            $.each(data, function (i, item) {
+               items +="<option value=" + item.Id + ">" + item.Nombre + "</option>";
+            });
+        $("#sltperfil").html(items); 
+        });        
+
+    });
 
     function cargarTabla(){
 
@@ -397,43 +437,5 @@
         });        
     }
 
-//Cargar Tipo de Documento
-      $.getJSON("?c=TipoDocumentoIdentidad&a=listar", 
-    {
-       
-    },
-    function (data) {
-        var items = "<option value='0' id='0'>SELECCIONE..</option>";
-        $.each(data, function (i, item) {
-           items +="<option value=" + item.Id + " id='"+ item.Id + "'" +">" + item.Nombre + "</option>";
-        });
-    $("#slttipodocumentoidentidad").html(items); 
-    });
-
-//Cargar Areas
-    $.getJSON("?c=Area&a=Listarcbo", 
-    {
-
-    },
-    function (data) {
-        var items = "<option value='0' id='0'>SELECCIONE..</option>";
-        $.each(data, function (i, item) {
-           items +="<option value=" + item.Id + ">" + item.Nombre + "</option>";
-        });
-    $("#sltarea").html(items); 
-    });
-
-//Cargar Perfiles
-          $.getJSON("?c=Perfil&a=Listarcbo", 
-    {
-       
-    },
-    function (data) {
-        var items = "<option value='0' id='0'>SELECCIONE..</option>";
-        $.each(data, function (i, item) {
-           items +="<option value=" + item.Id + ">" + item.Nombre + "</option>";
-        });
-    $("#sltperfil").html(items); 
-    });
 
 </script>

@@ -23,7 +23,9 @@ class EmpleadoController{
 		$this->dao = new EmpleadoDAO();
 		$this->sess_usuario=unserialize($_SESSION['empleado']);
 	}
-
+	public function listar(){
+		
+	}
 	public function listarTabla(){
 
 		$iDisplayStart=0;

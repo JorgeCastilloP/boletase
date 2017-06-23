@@ -15,6 +15,7 @@ class Empleado implements JsonSerializable
 	private $Area;
 	private $Nombres;
 	private $Apellidos;
+	private $NombreCompleto;
 	private $Usuario;
 	private $Password;
 	private $Correo;
@@ -31,6 +32,7 @@ class Empleado implements JsonSerializable
  		$this->Area = new Area();
  		$this->Nombres = null;
  		$this->Apellidos = null;
+ 		$this->NombreCompleto = null;
  		$this->Usuario = null;
  		$this->Password = null;
  		$this->Correo = null;
@@ -49,6 +51,7 @@ class Empleado implements JsonSerializable
             'Area' => $this->Area,
             'Nombres' => $this->Nombres,
             'Apellidos' => $this->Apellidos,
+            'NombreCompleto' => $this->Nombres." ".$this->Apellidos,
             'Usuario' => $this->Usuario,
             'Correo' => $this->Correo,
             'Telefono' => $this->Telefono,
