@@ -64,9 +64,16 @@ class DocumentoController{
 				$sSortDir_0, $iSortCol_0);
 
 		echo  json_encode($reg);
+	
+	}
 
+	public function listarPorEmpleado(){
 
-		
+		$Id = $_POST["id"];
+		$Ruc = $_POST["ruc"];
+		$Estado = 'A';
+
+		echo json_encode($this->dao->listar($Id, $Estado, $Ruc, null));			
 	}
 
 

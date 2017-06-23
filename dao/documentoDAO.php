@@ -529,4 +529,99 @@ class DocumentoDAO
 
 	}
 
+	public function listar(
+		$IdEmpleado,
+		$Estado,
+		$Rucempresa,
+		$TipoDocumento){
+
+		try
+		{		
+			$a_respuesta = array();
+
+			$sQuery = "
+			select 
+				d.id_documento, 
+				e.ruc_empresa, e.razon_social_empresa, e.nombre_comercial_empresa, 
+				tdi.nombre_tipo_documento_identidad, 
+				em.nombres_emp, em.apellidos_emp,
+				td.desc_tipo_documento, 
+				a.nombre_area, 
+				d.fecha_documento, d.ruta_almacenamiento, d.fecha_incorporacion, d.fecha_visualizacion, d.fecha_baja, d.id_erp, 
+				d.id_web, d.estado_documento 
+			from documento d 
+				inner join 
+					empresa e on e.ruc_empresa = d.ruc_empresa and (e.estado_empresa = '".$Estado."' or '".$Estado."' = 'T') 
+				inner join 
+					empleado em on em.id_empleado = d.id_empleado and (em.estado_emp = '".$Estado."' or '".$Estado."' = 'T') 
+				inner join 
+					tipo_documento_identidad tdi on tdi.id_tipo_documento_identidad = em.id_tipo_documento_identidad and 
+					(tdi.estado_tipo_documento_identidad = '".$Estado."' or '".$Estado."' = 'T') 
+				inner join 
+					tipo_documento td on td.id_tipo_documento = d.id_tipo_documento and 
+					(td.estado_tipo_documento = '".$Estado."' or '".$Estado."' = 'T') 
+				inner join 
+					area a on a.id_area = d.id_area and (a.estado_area  = '".$Estado."' or '".$Estado."' = 'T') ";
+
+
+			$sQuery .= "where (d.ruc_empresa ='".$Rucempresa."' or '".$Estado."'='T' ) ";
+			//$sWhere .= "and d.ruc_empresa ='".$Rucempresa."'";
+
+			if(!is_null($TipoDocumento))
+				$sQuery .= "and td.id_tipo_documento = ".$TipoDocumento." ";
+
+			if(!is_null($IdEmpleado))
+				$sQuery .= "and d.id_empleado = ".$IdEmpleado." ";	
+
+			$stm = $this->pdo->prepare($sQuery);
+			$stm->execute();
+			$a_respuesta = array();
+
+			while($reg = $stm->fetch())
+			{
+				$documento = new Documento();
+				$documento->setId($reg[0]);
+
+				$empresa = new Empresa();
+				$empresa->setRuc($reg[1]);
+				$empresa->setRazonSocial($reg[2]);
+				$empresa->setNombreComercial($reg[3]);
+
+				$documento->setEmpresa($empresa);
+
+				$empleado = new Empleado();
+				$tdi = new TipoDocumentoIdentidad();
+				$tdi->setNombre($reg[4]);
+				$empleado->setNombres($reg[5].', ' .$reg[6]);
+				$empleado->setApellidos($reg[6]);
+				$empleado->setTipoDocumentoIdentidad($tdi);
+
+				$documento->setEmpleado($empleado);
+
+				$td = new TipoDocumento();
+				$td->setDescripcion($reg[7]);
+
+				$area = new Area();
+				$area->setNombre($reg[8]);
+				$documento->setArea($area);
+
+				$documento->setFechaDocumento($reg[9]);
+				$documento->setRutaAlmacenamiento($reg[10]);
+				$documento->setFechaIncorporacion($reg[11]);
+				$documento->setFechaVisualizacion($reg[12]);
+				$documento->setFechaBaja($reg[13]);
+				$documento->setIdErp($reg[14]);
+				$documento->setIdWeb($reg[15]);
+				$documento->setEstado($reg[16]);
+
+			    array_push($a_respuesta, $documento);
+			}						
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}	
+		return $a_respuesta;		
+	}
+
 }

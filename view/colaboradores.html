@@ -648,7 +648,7 @@
 
 
         //console.log(subDetalleColaborador());
-        colaborador += subDetalleColaborador();
+        colaborador += subDetalleColaborador(data.Empresa.Ruc, data.Id);
 
 
         colaborador += '</div>';
@@ -662,16 +662,20 @@
         $("#detalleColaborador").html(colaborador);
 
     }
-    function subDetalleColaborador(){
+    function subDetalleColaborador(ruc_empresa, id_empleado){
 
         var subdetalle = "";
 
 
         $.ajax({
-          url: "?c=Area&a=listar",
+          url: "?c=Documento&a=listarPorEmpleado",
+          method: "POST",
           dataType: 'json',
           async: false,
-          //data: myData,
+          data: {
+            id: id_empleado,
+            ruc: ruc_empresa
+          },
           success: function(data) {
             $.each(data, function (i, item) {
                 //console.log(data);
