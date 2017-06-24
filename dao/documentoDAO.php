@@ -621,7 +621,33 @@ class DocumentoDAO
 		{
 			die($e->getMessage());
 		}	
-		return $a_respuesta;		
+		return $a_respuesta;	
+	}
+
+	public function obtenerUltimaActualizacion($Ruc){
+
+		$maximo = "";
+
+		$sQuery = "select max(fecha_visualizacion) as maximo from documento where ruc_empresa= '" .$Ruc."'";
+
+		try
+		{		
+			$stm = $this->pdo->prepare($sQuery);
+			$stm->execute();
+			$row = $stm->fetch();			
+
+			if($row){
+				$maximo = $row['maximo'];
+			}
+
+		}
+		catch(Exception $e)
+		{
+			die($e->getMessage());
+		}
+
+		return $maximo;
+
 	}
 
 }

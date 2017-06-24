@@ -73,9 +73,18 @@ class DocumentoController{
 		$Ruc = $_POST["ruc"];
 		$Estado = 'A';
 
-		echo json_encode($this->dao->listar($Id, $Estado, $Ruc, null));			
+		echo json_encode($this->dao->listar($Id, $Estado, $Ruc, null));
 	}
+	public function obtenerUltimaActualizacion(){
+		$Ruc = $this->sess_usuario->getEmpresa()->getRuc();
+		/*
+		
 
+		$date = date_create_from_format('d/M/Y:H:i:s', $this->dao->obtenerUltimaActualizacion($Ruc));;
+*/
+		$fecha = strtotime($this->dao->obtenerUltimaActualizacion($Ruc));
+		echo date("Y-m-d H:i:s", $fecha);
+	}
 
 }
 

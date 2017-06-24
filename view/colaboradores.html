@@ -27,21 +27,28 @@
                 <div class="col-sm-8">
                     <div class="ibox">
                         <div class="ibox-content">
-                            <span class="text-muted small pull-right">Ultima actualización: <i class="fa fa-clock-o"></i> 2:10 pm - 12.06.2014</span>
+                            <div id="lastUpdate">
+                                <span class="text-muted small pull-right">
+                                    Ultima actualización: 
+                                    <i class="fa fa-clock-o"></i>
+                                    2:10 pm - 12.06.2014
+                                </span>
+                            </div>
                             <p>
                                 Colaboradores distribuidos por áreas / grupos.
                             </p>
                             <div class="input-group">
-                                <input type="text" placeholder="Busqueda de colaboradores" class="input form-control">
+                                <input type="text" placeholder="Busqueda de colaboradores" class="input form-control" id="txtBusqueda" name="txtBusqueda">
                                 <span class="input-group-btn">
-                                        <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Buscar</button>
+                                        <button type="button" class="btn btn btn-primary" id="btnBusqueda"> <i class="fa fa-search"></i> Buscar</button>
                                 </span>
                             </div>
                             <div class="clients-list">
                             <ul class="nav nav-tabs">
-                                <span class="pull-right small text-muted">1406 Elements</span>
+                                <!--<span class="pull-right small text-muted">1406 Elements</span>-->
+
                                 <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Contactos</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-briefcase"></i> Áreas</a></li>
+                                <!--<li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-briefcase"></i> Áreas</a></li>-->
                             </ul>
                             <div class="tab-content">
                                 <div id="tab-1" class="tab-pane active">
@@ -135,14 +142,14 @@
                                     <div id="contact-1" class="tab-pane active">
                                         <div class="row m-b-lg">
                                             <div class="col-lg-4 text-center">
-                                                <h2>Joel Silva</h2>
+                                                <h2>Usuario</h2>
                                                 <div class="m-b-sm">
-                                                    <img alt="image" class="img-circle" src="assets/img/a1.jpg" style="width: 62px">
+                                                    <img alt="image" class="img-circle" src="assets/img/profile.png" style="width: 62px">
                                                 </div>
                                             </div>
                                             <div class="col-lg-8">
-                                                <strong>About me</strong>
-                                                <p>Silva Saman, Joel Alejandro</p>
+                                                <strong>Contacto</strong>
+                                                <p>Apellidos, Nombres</p>
                                                 <a type="button" href="mailto:manish@simplygraphix.com?subject=Feedback for webdevelopersnotes.com&body=The Tips and Tricks section is great" class="btn btn-primary btn-sm btn-block">
                                                     <i class="fa fa-envelope"></i> Enviar correo
                                                 </a>
@@ -155,26 +162,13 @@
                                             <strong>Actividad reciente (boletas)</strong>
                                             <div id="vertical-timeline" class="vertical-container dark-timeline">
                                                 <div class="vertical-timeline-block">
-                                                    <div class="vertical-timeline-icon gray-bg">
-                                                        <i class="fa fa-envelope-open-o"></i>
-                                                    </div>
-                                                    <div class="vertical-timeline-content">
-                                                        <strong>Mayo</strong>
-                                                        <p>Publicado</p>
-                                                        <span class="vertical-date small text-muted"> 2:10 pm - 12.06.2017 </span>
-                                                        <br>
-                                                        <p>Visualizado</p>
-                                                        <span class="vertical-date small text-muted"> 2:10 pm - 12.06.2017 </span>
-                                                    </div>
-                                                </div>
-                                                <div class="vertical-timeline-block">
                                                     <div class="vertical-timeline-icon navy-bg">
-                                                        <i class="fa fa-envelope-o"></i>
+                                                        <i class="fa fa-question"></i>
                                                     </div>
                                                     <div class="vertical-timeline-content">
-                                                        <strong>Abril</strong>
-                                                        <p>Publicado</p>
-                                                        <span class="vertical-date small text-muted"> 2:10 pm - 12.05.2017 </span>
+                                                        <strong>-</strong>
+                                                        <p>Sin actividad reciente</p>
+                                                        <span class="vertical-date small text-muted"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -493,7 +487,7 @@
 <script>
     $(document).ready(function() {
         var tblColaboradores = $('#tblColaboradores').DataTable();
-
+       
         tblColaboradores = cargarTablaColaboradores();
 
        $('#tblColaboradores tbody').on('click', 'td.detalle-colaborador', function () {
@@ -501,23 +495,13 @@
             var row = tblColaboradores.row( tr );
 
             detalleColaborador(row.data());
-            /*
-            if ( row.child.isShown() ) {
-                // This row is already open - close it
-                row.child.hide();
-                tr.removeClass('shown');
-            }
-            else {
-                // Open this row
-                row.child( format(row.data()) ).show();
-                tr.addClass('shown');
-            }
-            */
         });
 
-        /*
+        $('#btnBusqueda').click( function() {
+            tblColaboradores.search($('#txtBusqueda').val()).draw();
+        });
         
-        */
+        editarLastUpdate();
 
     });
     function cargarTablaColaboradores(){
@@ -612,8 +596,7 @@
                         { "data": 'Perfil.Id'}
             ],
             "sDom": '<"top"><"pull-right"l>rt<"bottom"ip>'          
-         });    
-
+         });
         return table;        
     }
     function detalleColaborador(data){
@@ -626,13 +609,17 @@
         colaborador += '<div class="col-lg-4 text-center">';
         colaborador += '<h2>' + data.Nombres + '</h2>';
         colaborador += '<div class="m-b-sm">';
-        colaborador += '<img alt="image" class="img-circle" src="assets/img/' + data.Empresa.Ruc + '/a' + data.Id + '.jpg" style="width: 62px">';
+        colaborador += '<img alt="image" class="img-circle" src="assets/img/' + data.Empresa.Ruc + '/a' + data.Id + '.jpg">';// style="width: 62px"
         colaborador += '</div>';
         colaborador += '</div>';
         colaborador += '<div class="col-lg-8">';
         colaborador += '<strong>Acerca de mi</strong>';
         colaborador += '<p>' + data.Apellidos + ', ' + data.Nombres + '</p>';
-        colaborador += '<a type="button" href="mailto:' + data.Empresa.Correo + '?subject=Retroalimentación por pagina&body=Cuerpo del mensaje" class="btn btn-primary btn-sm btn-block">';
+        colaborador += '<strong>Area</strong>';
+        colaborador += '<p>' + data.Area.Nombre + '</p>';
+        colaborador += '<strong>Perfil</strong>';
+        colaborador += '<p>' + data.Perfil.Nombre + '</p>';        
+        colaborador += '<a type="button" href="mailto:' + data.Correo + '?subject=Retroalimentación por pagina&body=Cuerpo del mensaje" class="btn btn-primary btn-sm btn-block">';
         colaborador += '<i class="fa fa-envelope"></i> Enviar correo';
         colaborador += '</a>';
         colaborador += '</div>';
@@ -678,21 +665,20 @@
           },
           success: function(data) {
             $.each(data, function (i, item) {
-                //console.log(data);
                 subdetalle += '<div class="vertical-timeline-block">';
-
-                subdetalle += '<div class="vertical-timeline-icon gray-bg">';// [gray-bg][navy-bg]
-                subdetalle += '<i class="fa fa-envelope-open-o"></i>';//[fa-envelope-open-o][fa fa-envelope-o]
+                subdetalle += '<div class="vertical-timeline-icon ' + (data[i].FechaVisualizacion==null? 'navy':'gray') + '-bg">';// [gray-bg][navy-bg]
+                subdetalle += '<i class="fa fa-envelope' + (data[i].FechaVisualizacion==null? '':'-open') + '-o"></i>';//[fa-envelope-open-o][fa fa-envelope-o]
                 subdetalle += '</div>';
                 subdetalle += '<div class="vertical-timeline-content">';
-
-                subdetalle += '<strong>Mayo</strong>'; 
+                subdetalle += '<strong>' + data[i].PeriodoMes + '</strong>'; 
                 subdetalle += '<p>Publicado</p>'; 
-                subdetalle += '<span class="vertical-date small text-muted"> 2:10 pm - 12.06.2017 </span>'; 
+                subdetalle += '<span class="vertical-date small text-muted">' + data[i].FechaIncorporacion +'</span>'; 
                 //condicionado a si visualizo el documento
-                subdetalle += '<br>'; 
-                subdetalle += '<p>Visualizado</p>'; 
-                subdetalle += '<span class="vertical-date small text-muted"> 2:10 pm - 12.06.2017 </span>'; 
+                if(data[i].FechaVisualizacion !== null){
+                    subdetalle += '<br>'; 
+                    subdetalle += '<p>Visualizado</p>'; 
+                    subdetalle += '<span class="vertical-date small text-muted">' + data[i].FechaVisualizacion +'</span>'; 
+                }
                 //fin condicionado a si visualizo el documento
                 subdetalle += '</div>';        
 
@@ -703,5 +689,20 @@
           }
         });        
         return subdetalle;          
+    }
+    function editarLastUpdate(){
+
+        var mensaje = "";
+
+        $.ajax({
+          url: "?c=Documento&a=obtenerUltimaActualizacion",
+          method: "POST",
+          async: false,
+          success: function(data) {
+            mensaje = data;
+          }
+        });
+        $("#lastUpdate span").html('Ultima actualización: <i class="fa fa-clock-o"></i>' + mensaje);
+        
     }
 </script>

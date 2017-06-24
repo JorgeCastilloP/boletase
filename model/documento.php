@@ -34,7 +34,11 @@ class Documento implements JsonSerializable
             'IdErp' => $this->IdErp,
             'IdWeb' => $this->IdWeb,
             'Estado' => $this->Estado,
-            'Auditoria' => $this->Auditoria
+            'Auditoria' => $this->Auditoria,
+            'PeriodoMes' => Constants::MESES[date('n',strtotime($this->FechaDocumento))-1],
+            'NumeroMes' => date('w',strtotime($this->FechaDocumento)),
+            'Fechita' => date(strtotime($this->FechaDocumento))
+
         ];
     }
 

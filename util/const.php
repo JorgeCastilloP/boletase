@@ -19,6 +19,8 @@ class Constants
   const COD_PAG_MAN_AREA = 7;
   const COD_PAG_MAN_COLABORA = 8;
 
+  const MESES = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
 /*Ubicación de los banners */
 
   public static function getDirBanners()
